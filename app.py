@@ -1,18 +1,22 @@
 from flask import Flask, render_template, request, redirect, url_for
+from flask_apscheduler import APScheduler
 from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
 from flask_login import LoginManager, login_user, current_user, logout_user, login_required
 from sqlalchemy import func
-
+from datetime import datetime, timedelta
 from Forms import LoginForm, RegisterForm
 
+# -----  -----  ----- App -----  -----  -----
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///database.sqlite"
 app.config['SECRET_KEY'] = open("secret_key").readline()  # todo
 
+# -----  -----  ----- DB -----  -----  -----
 db = SQLAlchemy()
 db.init_app(app)
 
+# -----  -----  ----- Login -----  -----  -----
 bcrypt = Bcrypt(app)
 login_manager = LoginManager()
 login_manager.init_app(app)
@@ -27,6 +31,24 @@ def load_user(user_id):
     return User.query.get(int(user_id))
 
 
+# -----  -----  ----- APScheduler -----  -----  -----
+scheduler = APScheduler()
+scheduler.api_enabled = True
+scheduler.init_app(app)
+scheduler.start()
+TIME_TO_LIVE = 42  # in minutes
+
+
+@scheduler.task('cron', id='clear_old_visitor_addrs', minute='*')  # call every minute
+def clear_old_visitor_addrs():
+    with app.app_context():
+        from db import SharedAddresses
+        threshold_time = datetime.utcnow() - timedelta(minutes=TIME_TO_LIVE)
+        SharedAddresses.query.filter_by(user=0).filter(SharedAddresses.last_updated < threshold_time).delete()
+        db.session.commit()
+
+
+# -----  -----  ----- Routes -----  -----  -----
 @app.route('/')
 def root():
     from db import SharedAddresses
@@ -44,11 +66,8 @@ def root():
         user_addrs = []
 
     public_addrs = db.session.execute(
-        db.select(SharedAddresses).filter_by(user=0).order_by(SharedAddresses.last_updated)
+        db.select(SharedAddresses).filter_by(user=0).order_by(SharedAddresses.last_updated).limit(42)
     ).scalars()
-
-    print(user_addrs)
-    print(public_addrs)
 
     return render_template(
         "index.html",
@@ -147,6 +166,8 @@ def impressum():
     """Impressum"""
     return render_template("impressum.html")
 
+
+# -----  -----  ----- Main -----  -----  -----
 
 if __name__ == '__main__':
     app.run(debug=True)
