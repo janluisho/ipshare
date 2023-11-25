@@ -48,6 +48,24 @@ def clear_old_visitor_addrs():
         db.session.commit()
 
 
+# -----  -----  ----- Helper Functions -----  -----  -----
+def format_last_updated(last_updated):
+    delta = datetime.utcnow() - last_updated
+    days = delta.days
+    seconds = delta.seconds
+    hours, remainder = divmod(seconds, 3600)
+    minutes, seconds = divmod(remainder, 60)
+
+    if days > 0:
+        return f"{days} {'day' if days == 1 else 'days'} ago"
+    elif hours > 0:
+        return f"{hours} {'hour' if hours == 1 else 'hours'} ago"
+    elif minutes > 0:
+        return f"{minutes} {'minute' if minutes == 1 else 'minutes'} ago"
+    else:
+        return f"{seconds} {'second' if seconds == 1 else 'seconds'} ago"
+
+
 # -----  -----  ----- Routes -----  -----  -----
 @app.route('/')
 def root():
@@ -74,7 +92,8 @@ def root():
         ip_addr=ip_addr,
         user=current_user,
         user_addrs=user_addrs,
-        public_addrs=public_addrs
+        public_addrs=public_addrs,
+        format_last_updated=format_last_updated
     )
 
 

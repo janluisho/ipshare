@@ -25,3 +25,8 @@ th {
   font-size: clamp(2rem, 1vw, 8rem);
   color: white;
 }
+
+table {
+  border-spacing: 5rem 1rem;
+  text-align: left;
+}
