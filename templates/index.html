@@ -10,7 +10,37 @@
     <h1 data-value="{{ ip_addr }}" class="numbers">{{ ip_addr }}</h1>
     {% if user.is_authenticated %}
       <h1 data-value="{{ user.name.upper() }}" class="letters">{{ user.name.upper() }}</h1>
+
+
+        <table>
+            <tr>
+                <th>Device</th>
+                <th>Address</th>
+                <th>Last update</th>
+            </tr>
+        {% for addr in user_addrs %}
+            <tr>
+                <th>{{ addr.device_name }}</th>
+                <th>{{ addr.address }}</th>
+                <th>{{ addr.last_updated }}</th>
+            </tr>
+        {% endfor %}
+        </table>
     {% endif %}
+
+    <table>
+        <tr>
+            <th>Address</th>
+            <th>Last updated</th>
+        </tr>
+    {% for addr in public_addrs %}
+        <tr>
+            <th>{{ addr.address }}</th>
+            <th>{{ addr.last_updated }}</th>
+        </tr>
+    {% endfor %}
+    </table>
+
     <script src="{{ url_for('static', filename="scripts/Effect.js") }}"></script>
 </body>
 </html>

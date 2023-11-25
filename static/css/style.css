@@ -19,3 +19,9 @@ h1:hover {
   background-color: white;
   color: black;
 }
+
+th {
+  font-family: 'Space Mono', monospace;
+  font-size: clamp(2rem, 1vw, 8rem);
+  color: white;
+}

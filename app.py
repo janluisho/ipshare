@@ -29,12 +29,34 @@ def load_user(user_id):
 
 @app.route('/')
 def root():
+    from db import SharedAddresses
+
     if request.environ.get('HTTP_X_FORWARDED_FOR') is None:
         ip_addr = request.environ['REMOTE_ADDR']
     else:
         ip_addr = request.environ['HTTP_X_FORWARDED_FOR']  # if behind a prox
 
-    return render_template("index.html", ip_addr=ip_addr, user=current_user)
+    if current_user.is_authenticated:
+        user_addrs = db.session.execute(
+            db.select(SharedAddresses).filter_by(user=current_user.id).order_by(SharedAddresses.last_updated)
+        ).scalars()
+    else:
+        user_addrs = []
+
+    public_addrs = db.session.execute(
+        db.select(SharedAddresses).filter_by(user=0).order_by(SharedAddresses.last_updated)
+    ).scalars()
+
+    print(user_addrs)
+    print(public_addrs)
+
+    return render_template(
+        "index.html",
+        ip_addr=ip_addr,
+        user=current_user,
+        user_addrs=user_addrs,
+        public_addrs=public_addrs
+    )
 
 
 @app.route('/now')
@@ -72,8 +94,6 @@ def now():
             # update time
             shared_addr.last_updated = func.now()
             db.session.commit()
-
-
 
     return redirect(url_for('root'))
 
@@ -115,6 +135,11 @@ def signin():
 def logout():
     logout_user()
     return redirect(url_for('root'))
+
+
+@login_manager.unauthorized_handler
+def unauthorized_handler():
+    return 'Unauthorized', 401
 
 
 @app.route('/impressum')

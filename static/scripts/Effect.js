@@ -1,15 +1,16 @@
 const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 const numbers = "1234567890";
 
-let interval = null;
+let letters_interval = null;
+let numbers_interval = null;
 
 document.querySelectorAll('.letters').forEach(function (element) {
     element.onmouseover = event => {
         let iteration = 0;
 
-        clearInterval(interval);
+        clearInterval(letters_interval);
 
-        interval = setInterval(() => {
+        letters_interval = setInterval(() => {
             event.target.innerText = event.target.innerText
                 .split("")
                 .map((letter, index) => {
@@ -22,7 +23,7 @@ document.querySelectorAll('.letters').forEach(function (element) {
                 .join("");
 
             if(iteration >= event.target.dataset.value.length){
-                clearInterval(interval);
+                clearInterval(letters_interval);
             }
 
             iteration += 1 / 3;
@@ -34,9 +35,9 @@ document.querySelectorAll('.numbers').forEach(function (element) {
     element.onmouseover = event => {
       let iteration = 0;
 
-      clearInterval(interval);
+      clearInterval(numbers_interval);
 
-      interval = setInterval(() => {
+      numbers_interval = setInterval(() => {
         event.target.innerText = event.target.innerText
           .split("")
           .map((letter, index) => {
@@ -49,7 +50,7 @@ document.querySelectorAll('.numbers').forEach(function (element) {
           .join("");
 
         if(iteration >= event.target.dataset.value.length){
-          clearInterval(interval);
+          clearInterval(numbers_interval);
         }
 
         iteration += 1 / 3;
