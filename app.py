@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
 from flask_login import LoginManager, login_user, current_user, logout_user, login_required
+from sqlalchemy import func
 
 from Forms import LoginForm, RegisterForm
 
@@ -16,6 +17,8 @@ bcrypt = Bcrypt(app)
 login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = 'signin'
+
+public_address_counter = 0
 
 
 @login_manager.user_loader
@@ -37,7 +40,42 @@ def root():
 @app.route('/now')
 def now():
     """Teilt Ip sofort"""
-    return "todo"
+    from db import SharedAddresses
+    global public_address_counter
+    if request.environ.get('HTTP_X_FORWARDED_FOR') is None:
+        ip_addr = request.environ['REMOTE_ADDR']
+    else:
+        ip_addr = request.environ['HTTP_X_FORWARDED_FOR']  # if behind a prox
+
+    if current_user.is_authenticated:
+        shared_addr = SharedAddresses.query.filter_by(user=current_user.id, device_name="").first()
+
+        if shared_addr is None:
+            # create new device
+            shared_addr = SharedAddresses(user=current_user.id, device_name="", address=ip_addr, last_updated=func.now())
+            db.session.add(shared_addr)
+            db.session.commit()
+        else:
+            # update old device
+            shared_addr.address = ip_addr
+            shared_addr.last_updated = func.now()
+            db.session.commit()
+    else:
+        shared_addr = SharedAddresses.query.filter_by(user=0, address=ip_addr).first()
+        if shared_addr is None:
+            # create new device
+            public_address_counter += 1
+            shared_addr = SharedAddresses(user=0, device_name=str(public_address_counter), address=ip_addr, last_updated=func.now())
+            db.session.add(shared_addr)
+            db.session.commit()
+        else:
+            # update time
+            shared_addr.last_updated = func.now()
+            db.session.commit()
+
+
+
+    return redirect(url_for('root'))
 
 
 @app.route('/register', methods=['GET', 'POST'])
@@ -51,7 +89,7 @@ def register():
         new_user = User(name=form.name.data, password=hashed_password)
         db.session.add(new_user)
         db.session.commit()
-        login_user(new_user)
+        login_user(new_user, remember=True)
         return redirect(url_for('signin'))
 
     return render_template('register.html', form=form)
@@ -66,7 +104,7 @@ def signin():
         user = User.query.filter_by(name=form.name.data).first()
         if user:
             if bcrypt.check_password_hash(user.password, form.password.data):
-                login_user(user)
+                login_user(user, remember=True)
                 return redirect(url_for('root'))  # todo: maybe chane to /now
     # todo: login failed
     return render_template('signin.html', form=form)
