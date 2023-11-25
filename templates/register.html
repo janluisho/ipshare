@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>register</title>
+    {#    <link rel="stylesheet" href="{{ url_for('static', filename="css/style.css") }}">#}
+</head>
+<body>
+{#    <h1 data-value="{{ ip_addr }}" class="numbers">{{ ip_addr }}</h1>#}
+{#    <script src="{{ url_for('static', filename="scripts/Effect.js") }}"></script>#}
+
+    <h1>Register</h1>
+
+    <form id="register-form" method="POST" action="">
+        {{ form.hidden_tag() }}
+        {{ form.name }}
+        {{ form.password }}
+        {{ form.submit }}
+    </form>
+
+    Already have an account? <a href="{{ url_for('signin') }}">Login</a>
+</body>
+</html>
