@@ -20,3 +20,7 @@ class SharedAddresses(db.Model):
 if __name__ == "__main__":
     with app.app_context():
         db.create_all()
+
+        # add a user for visitors
+        db.session.add(User(id=0, name="VISITORS", password=""))
+        db.session.commit()
