@@ -1,59 +1,40 @@
 const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 const numbers = "1234567890";
 
-let letters_interval = null;
-let numbers_interval = null;
+document.querySelectorAll('[data-letters], [data-numbers]').forEach(function (element) {
+    element.inverval = null;
 
-document.querySelectorAll('.letters').forEach(function (element) {
     element.onmouseover = event => {
-        let iteration = 0;
+        element.iteration = 0;
+        clearInterval(element.inverval);
 
-        clearInterval(letters_interval);
+        element.inverval = setInterval(() => {
+            let data;
+            let chars;
+            if (Object.hasOwn(event.target.dataset, 'letters')) {
+                data = event.target.dataset.letters;
+                chars = letters;
+            } else {
+                data = event.target.dataset.numbers;
+                chars = numbers;
+            }
 
-        letters_interval = setInterval(() => {
             event.target.innerText = event.target.innerText
                 .split("")
                 .map((letter, index) => {
-                    if(index < iteration) {
-                        return event.target.dataset.value[index];
+                    if(index < element.iteration) {
+                        return data[index]
+                    } else {
+                        return chars[Math.floor(Math.random() * chars.length)]
                     }
-
-                    return letters[Math.floor(Math.random() * letters.length)]
                 })
                 .join("");
 
-            if(iteration >= event.target.dataset.value.length){
-                clearInterval(letters_interval);
+            if(element.iteration >= data.length){
+                clearInterval(element.inverval);
             }
 
-            iteration += 1 / 3;
+            element.iteration += 1 / 3;
         }, 18);
-    }
-})
-
-document.querySelectorAll('.numbers').forEach(function (element) {
-    element.onmouseover = event => {
-      let iteration = 0;
-
-      clearInterval(numbers_interval);
-
-      numbers_interval = setInterval(() => {
-        event.target.innerText = event.target.innerText
-          .split("")
-          .map((letter, index) => {
-            if(index < iteration) {
-              return event.target.dataset.value[index];
-            }
-
-            return numbers[Math.floor(Math.random() * numbers.length)]
-          })
-          .join("");
-
-        if(iteration >= event.target.dataset.value.length){
-          clearInterval(numbers_interval);
-        }
-
-        iteration += 1 / 3;
-      }, 18);
     }
 })
