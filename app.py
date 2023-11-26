@@ -168,9 +168,9 @@ def signin():
     return render_template('signin.html', form=form)
 
 
-@app.route('/logout')
+@app.route('/signout')
 @login_required
-def logout():
+def signout():
     logout_user()
     return redirect(url_for('root'))
 
