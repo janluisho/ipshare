@@ -1,32 +1,74 @@
+:root {
+  --forground-color: white;
+  --background-color: black;
+  --forground-highlight-color: black;
+  --background-highlight-color: white;
+}
+
 body {
-  display: grid;
-  place-items: center;
-  height: 100vh;
-  background-color: black;
-  margin: 0rem;
-  overflow: hidden;
+  background-color: var(--background-color);
+  margin: 0px;
+  padding: 0 1rem;
+  overflow: hidden; /* todo scrolling?*/
 }
 
-h1 {
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  width: 100%;
+  height: 4rem;
+  border-bottom: 1px solid var(--forground-color);
+}
+
+nav > a {
+  font-size: 1.5rem;
+  padding: 0.1rem;
+  border-radius: clamp(0.2rem, 0.5vw, 1rem);
+  width: 10rem;
+  text-align: center;
+}
+
+#nav-space {
+  flex-grow: 1;
+}
+
+h1, a, th {
+  color: var(--forground-color);
+  background: var(--background-color);
   font-family: 'Space Mono', monospace;
-  font-size: clamp(3rem, 10vw, 10rem);
-  color: white;
-  padding: 0rem clamp(1rem, 2vw, 3rem);
-  border-radius: clamp(0.4rem, 0.75vw, 1rem);
 }
 
-h1:hover {
-  background-color: white;
-  color: black;
+h1:hover, a:hover, th:hover {
+  color: var(--forground-highlight-color);
+  background: var(--background-highlight-color);
 }
 
-th {
-  font-family: 'Space Mono', monospace;
-  font-size: clamp(2rem, 1vw, 8rem);
-  color: white;
+a {
+  text-decoration: none;
 }
 
-table {
-  border-spacing: 5rem 1rem;
-  text-align: left;
+
+main {
+  align-content: center;
 }
+
+/*h1 {*/
+/*  font-family: 'Space Mono', monospace;*/
+/*  font-size: clamp(3rem, 10vw, 10rem);*/
+/*  color: white;*/
+/*  padding: 0rem clamp(1rem, 2vw, 3rem);*/
+/*  border-radius: clamp(0.4rem, 0.75vw, 1rem);*/
+/*}*/
+
+/*th {*/
+/*  font-family: 'Space Mono', monospace;*/
+/*  font-size: clamp(2rem, 1vw, 8rem);*/
+/*  color: white;*/
+/*}*/
+
+/*table {*/
+/*  border-spacing: 5rem 1rem;*/
+/*  text-align: left;*/
+/*}*/
