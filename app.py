@@ -78,13 +78,13 @@ def root():
 
     if current_user.is_authenticated:
         user_addrs = db.session.execute(
-            db.select(SharedAddresses).filter_by(user=current_user.id).order_by(SharedAddresses.last_updated)
+            db.select(SharedAddresses).filter_by(user=current_user.id).order_by(SharedAddresses.last_updated.desc())
         ).scalars()
     else:
         user_addrs = []
 
     public_addrs = db.session.execute(
-        db.select(SharedAddresses).filter_by(user=0).order_by(SharedAddresses.last_updated).limit(42)
+        db.select(SharedAddresses).filter_by(user=0).order_by(SharedAddresses.last_updated.desc()).limit(42)
     ).scalars()
 
     return render_template(
