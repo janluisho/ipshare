@@ -7,7 +7,7 @@
 </head>
 <body>
 {#    <h1 data-value="TESTTEXT" class="data-letters">TESTTEXT</h1>#}
-    <div class="outer-container">
+    <div id="outer-container">
         <nav>
             <a href="https://github.com/janluisho/ipshare" data-letters="IPSHARE">IPSHARE</a>
             <a href="{{ url_for("impressum") }}" data-letters="IMPRESSUM">IMPRESSUM</a>
@@ -22,29 +22,34 @@
         </nav>
 
         <main>
-            <h1 data-numbers="{{ ip_addr }}">{{ ip_addr }}</h1>
-            {% if user.is_authenticated %}
-              <h1 data-letters="{{ user.name.upper() }}">{{ user.name.upper() }}</h1>
+            <div id="ip-addr">
+                <a data-numbers="{{ ip_addr }}">{{ ip_addr }}</a>
+            </div>
 
+            {% if user.is_authenticated %}
+            <div id="user_addrs">
                 <table>
                 {% for addr in user_addrs %}
-                    <tr>
+                    <tr class="user_tr">
                         <th>{{ addr.device_name }}</th>
                         <th>{{ addr.address }}</th>
                         <th>{{ format_last_updated(addr.last_updated) }}</th>
                     </tr>
                 {% endfor %}
                 </table>
+            </div>
             {% endif %}
 
-            <table>
-            {% for addr in public_addrs %}
-                <tr>
-                    <th>{{ addr.address }}</th>
-                    <th>{{ format_last_updated(addr.last_updated) }}</th>
-                </tr>
-            {% endfor %}
-            </table>
+            <div id="visitor_addrs">
+                <table>
+                {% for addr in public_addrs %}
+                    <tr class="visitor_tr">
+                        <th>{{ addr.address }}</th>
+                        <th>{{ format_last_updated(addr.last_updated) }}</th>
+                    </tr>
+                {% endfor %}
+                </table>
+            </div>
         </main>
     </div>
     <script src="{{ url_for('static', filename="scripts/Effect.js") }}"></script>
