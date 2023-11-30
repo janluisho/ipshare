@@ -18,4 +18,4 @@ class RegisterForm(FlaskForm):
 class LoginForm(FlaskForm):
     name = StringField(validators=[InputRequired(), Length(min=2, max=69)], render_kw={"placeholder": "PSEUDONYM"})
     password = PasswordField(validators=[InputRequired(), Length(min=2, max=69)], render_kw={"placeholder": "PASSWORD"})
-    submit = SubmitField('Login')
+    submit = SubmitField('SIGN IN')

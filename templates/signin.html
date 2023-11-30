@@ -3,21 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <title>signin</title>
-    {#    <link rel="stylesheet" href="{{ url_for('static', filename="css/style.css") }}">#}
+    <link rel="stylesheet" href="{{ url_for('static', filename="css/style.css") }}">
 </head>
 <body>
-{#    <h1 data-value="{{ ip_addr }}" class="numbers">{{ ip_addr }}</h1>#}
-{#    <script src="{{ url_for('static', filename="scripts/Effect.js") }}"></script>#}
+    <div id="outer-container">
+        <nav>
+            <a href="https://github.com/janluisho/ipshare" data-letters="IPSHARE">IPSHARE</a>
+            <a href="{{ url_for("impressum") }}" data-letters="IMPRESSUM">IMPRESSUM</a>
+            <div id="nav-space"></div>
+            <a href="{{ url_for("register") }}" data-letters="REGISTER">REGISTER</a>
+{# todo           <a href="{{ url_for("signin") }}" data-letters="TODO">TODO</a>#}
+        </nav>
 
-    <h1>Signin</h1>
+        <main>
+            <form id="signin-form" method="POST" action="">
+                <h1>SIGN IN</h1>
+                {{ form.hidden_tag() }}
+                {{ form.name }}
+                {{ form.password }}
+                {{ form.submit }}
+            </form>
+{#todo            Don't have an account? <a href="{{ url_for('register') }}">REGISTER</a>#}
+        </main>
+    </div>
+    <script src="{{ url_for('static', filename="scripts/Effect.js") }}"></script>
 
-    <form id="signin-form" method="POST" action="">
-        {{ form.hidden_tag() }}
-        {{ form.name }}
-        {{ form.password }}
-        {{ form.submit }}
-    </form>
-
-    Don't have an account? <a href="{{ url_for('register') }}">Sign Up</a>
 </body>
 </html>
