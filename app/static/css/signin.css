@@ -1,0 +1,44 @@
+form {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+    flex-direction: column;
+    row-gap: 2rem;
+    width: 100%;
+    height: max(90%, 17rem);
+}
+
+input {
+    text-align: center;
+    border-radius: clamp(0.2rem, 0.5vw, 1rem);
+    width: 25rem;
+    border: 1px solid var(--border-color);
+    color: var(--forground-color);
+    background: var(--background-color);
+    font-family: 'Space Mono', monospace;
+    font-size: min(3vw, 1.5rem);
+}
+
+input:focus {
+    outline: 3px solid white; /*todo red or green depending on min and max len*/
+}
+
+#submit {
+    border: none;
+    font-size: min(4vw, 2rem);
+    width: 12rem;
+}
+
+#submit:hover {
+    color: var(--forground-highlight-color);
+    background: var(--background-highlight-color);
+}
+
+.user-or-pw-wrong {
+    background: darkred;
+}
+
+.error {
+    color: red;
+}

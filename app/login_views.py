@@ -42,7 +42,7 @@ def register():
 
 
 @app.route('/signin', methods=['GET', 'POST'])
-@limiter.limit("10/day;5/hour;3/minute", methods=['POST'])
+@limiter.limit("10/day;5/hour;3/minute", methods=['POST'])  # deduct_when=lambda response: response.status_code != 302)
 def signin():
     """Login"""
     form = LoginForm()
