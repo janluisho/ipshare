@@ -1,10 +1,10 @@
 from datetime import datetime
-
+from db import SharedAddresses
 from flask import request, render_template, redirect, url_for
 from flask_login import current_user
 from sqlalchemy import func
 
-from app import app, db
+from app import app, db, limiter
 
 public_address_counter = 0
 
@@ -27,9 +27,8 @@ def format_last_updated(last_updated):
 
 
 @app.route('/')
+@limiter.limit("1337 per day")
 def root():
-    from db import SharedAddresses
-
     if request.environ.get('HTTP_X_FORWARDED_FOR') is None:
         ip_addr = request.environ['REMOTE_ADDR']
     else:
@@ -57,9 +56,9 @@ def root():
 
 
 @app.route('/now')
+@limiter.limit("10/minute", override_defaults=False)
 def now():
     """Teilt Ip sofort"""
-    from db import SharedAddresses
     global public_address_counter
     if request.environ.get('HTTP_X_FORWARDED_FOR') is None:
         ip_addr = request.environ['REMOTE_ADDR']

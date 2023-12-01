@@ -3,7 +3,7 @@ from flask_login import login_user, login_required, logout_user
 from flask_bcrypt import Bcrypt
 from flask_login import LoginManager
 from app.Forms import RegisterForm, LoginForm
-from app import app, db
+from app import app, db, limiter
 from db import User
 
 DISTINGUISH_NAME_PW_WRONG = True
@@ -25,6 +25,7 @@ def load_user(user_id):
 
 
 @app.route('/register', methods=['GET', 'POST'])
+@limiter.limit("5/day", methods=['POST'])
 def register():
     """Account Erstellen"""
     form = RegisterForm()
@@ -41,6 +42,7 @@ def register():
 
 
 @app.route('/signin', methods=['GET', 'POST'])
+@limiter.limit("10/day;5/hour;3/minute", methods=['POST'])
 def signin():
     """Login"""
     form = LoginForm()
