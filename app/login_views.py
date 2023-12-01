@@ -1,10 +1,13 @@
-from flask import redirect, url_for, request, render_template
+from flask import redirect, url_for, flash, render_template
 from flask_login import login_user, login_required, logout_user
 from flask_bcrypt import Bcrypt
 from flask_login import LoginManager
 from Forms import RegisterForm, LoginForm
 from app import app, db
 from db import User
+
+DISTINGUISH_NAME_PW_WRONG = True
+
 
 # -----  -----  ----- Login -----  -----  -----
 bcrypt = Bcrypt(app)
@@ -50,8 +53,21 @@ def signin():
             if bcrypt.check_password_hash(user.password, form.password.data):
                 login_user(user, remember=True)
                 return redirect(url_for('root'))  # todo: maybe change to /now
-        form.name.render_kw.update({"class": "user-or-pw-wrong"})
-        form.password.render_kw.update({"class": "user-or-pw-wrong"})
+            elif DISTINGUISH_NAME_PW_WRONG:
+                flash('Invalid password provided', 'error')
+                form.name.render_kw.update({"class": ""})
+                form.password.render_kw.update({"class": "user-or-pw-wrong"})
+            else:
+                flash('Invalid pseudonym or password provided', 'error')
+                form.name.render_kw.update({"class": "user-or-pw-wrong"})
+                form.password.render_kw.update({"class": "user-or-pw-wrong"})
+        else:
+            flash('Invalid pseudonym or password provided', 'error')
+            form.name.render_kw.update({"class": "user-or-pw-wrong"})
+            form.password.render_kw.update({"class": "user-or-pw-wrong"})
+    else:
+        form.name.render_kw.update({"class": ""})
+        form.password.render_kw.update({"class": ""})
     return render_template('signin.html', form=form)
 
 
