@@ -1,19 +1,22 @@
-<div class='impressum'>
-    <h1>Impressum</h1>
-    <p>
-        Jan Luis Holtmann<br>
-        Augsburg
-    </p>
+{% extends 'base.html' %}
+{% block title %}Impressum{% endblock %}
 
-    <h2>Kontakt:</h2>
-    <p>
-        Telefon: +49 (0)163-6955847<br>
-        E-Mail: <a href='mailto:webmaster@janluis.de'>webmaster@janluis.de</a>
-    </p>
+{% block main %}
+    <div id='impressum'>
+        <h1>Impressum</h1>
+        <p>
+            Jan Luis Holtmann<br>
+            Augsburg
+        </p>
 
-    <p>
-        Dies ist eine nicht kommerzielle Seite.<br>
-    </p>
+        <h1>Kontakt:</h1>
+        <p>
+            Telefon: +49 (0)163-6955847<br>
+            E-Mail: <a id="mail" href='mailto:webmaster@janluis.de'>webmaster@janluis.de</a>
+        </p>
 
-    <a href="{{ url_for('root') }}">back</a>
-</div>
+        <p>
+            Dies ist eine nicht kommerzielle Seite.<br>
+        </p>
+    </div>
+{% endblock %}

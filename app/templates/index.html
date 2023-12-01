@@ -1,58 +1,31 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>IPSHARE</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename="css/style.css") }}">
-    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.png') }}">
-</head>
-<body>
-{#    <h1 data-value="TESTTEXT" class="data-letters">TESTTEXT</h1>#}
-    <div id="outer-container">
-        <nav>
-            <a href="https://github.com/janluisho/ipshare" data-letters="IPSHARE">IPSHARE</a>
-            <a href="{{ url_for("impressum") }}" data-letters="IMPRESSUM">IMPRESSUM</a>
-            <div id="nav-space"></div>
-            {% if user.is_authenticated %}
-                <a href="" data-letters={{ user.name.upper() }}>{{ user.name.upper() }}</a>
-                <a href="{{ url_for("signout") }}" data-letters="SIGN OUT">SIGN OUT</a>
-            {% else %}
-                <a href="{{ url_for("register") }}" data-letters="REGISTER">REGISTER</a>
-                <a href="{{ url_for("signin") }}" data-letters="SIGN IN">SIGN IN</a>
-            {% endif %}
-        </nav>
-
-        <main>
-            <div id="ip-addr">
-                <a data-numbers="{{ ip_addr }}">{{ ip_addr }}</a>
-            </div>
-
-            {% if user.is_authenticated %}
-            <div id="user_addrs">
-                <table>
-                {% for addr in user_addrs %}
-                    <tr class="user_tr">
-                        <th>{{ addr.device_name }}</th>
-                        <th>{{ addr.address }}</th>
-                        <th>{{ format_last_updated(addr.last_updated) }}</th>
-                    </tr>
-                {% endfor %}
-                </table>
-            </div>
-            {% endif %}
-
-            <div id="visitor_addrs">
-                <table>
-                {% for addr in public_addrs %}
-                    <tr class="visitor_tr">
-                        <th>{{ addr.address }}</th>
-                        <th>{{ format_last_updated(addr.last_updated) }}</th>
-                    </tr>
-                {% endfor %}
-                </table>
-            </div>
-        </main>
+{% extends 'base.html' %}
+{% block main %}
+    <div id="ip-addr">
+        <a data-numbers="{{ ip_addr }}">{{ ip_addr }}</a>
     </div>
-    <script src="{{ url_for('static', filename="scripts/Effect.js") }}"></script>
-</body>
-</html>
+
+    {% if user.is_authenticated %}
+    <div id="user_addrs">
+        <table>
+        {% for addr in user_addrs %}
+            <tr class="user_tr">
+                <th>{{ addr.device_name }}</th>
+                <th>{{ addr.address }}</th>
+                <th>{{ format_last_updated(addr.last_updated) }}</th>
+            </tr>
+        {% endfor %}
+        </table>
+    </div>
+    {% endif %}
+
+    <div id="visitor_addrs">
+        <table>
+        {% for addr in public_addrs %}
+            <tr class="visitor_tr">
+                <th>{{ addr.address }}</th>
+                <th>{{ format_last_updated(addr.last_updated) }}</th>
+            </tr>
+        {% endfor %}
+        </table>
+    </div>
+{% endblock %}

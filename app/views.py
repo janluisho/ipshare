@@ -6,6 +6,8 @@ from sqlalchemy import func
 
 from app import app, db
 
+public_address_counter = 0
+
 
 def format_last_updated(last_updated):
     delta = datetime.utcnow() - last_updated
@@ -96,4 +98,4 @@ def now():
 @app.route('/impressum')
 def impressum():
     """Impressum"""
-    return render_template("impressum.html")
+    return render_template("impressum.html", user=current_user)
