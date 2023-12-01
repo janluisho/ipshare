@@ -1,4 +1,4 @@
-from flask import redirect, url_for, render_template
+from flask import redirect, url_for, request, render_template
 from flask_login import login_user, login_required, logout_user
 from flask_bcrypt import Bcrypt
 from flask_login import LoginManager
@@ -43,13 +43,15 @@ def register():
 def signin():
     """Login"""
     form = LoginForm()
+
     if form.validate_on_submit():
         user = User.query.filter_by(name=form.name.data).first()
         if user:
             if bcrypt.check_password_hash(user.password, form.password.data):
                 login_user(user, remember=True)
                 return redirect(url_for('root'))  # todo: maybe change to /now
-    # todo: login failed
+        form.name.render_kw.update({"class": "user-or-pw-wrong"})
+        form.password.render_kw.update({"class": "user-or-pw-wrong"})
     return render_template('signin.html', form=form)
 
 

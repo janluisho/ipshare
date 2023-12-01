@@ -188,3 +188,7 @@ input:focus {
     background: var(--background-highlight-color);
 }
 
+.user-or-pw-wrongg {
+    outline: 3px solid red; /*todo red or green depending on min and max len*/
+}
+
