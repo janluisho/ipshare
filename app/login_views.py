@@ -2,7 +2,7 @@ from flask import redirect, url_for, flash, render_template
 from flask_login import login_user, login_required, logout_user
 from flask_bcrypt import Bcrypt
 from flask_login import LoginManager
-from Forms import RegisterForm, LoginForm
+from app.Forms import RegisterForm, LoginForm
 from app import app, db
 from db import User
 

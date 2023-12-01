@@ -160,12 +160,7 @@ form {
     flex-direction: column;
     row-gap: 2rem;
     width: 100%;
-    height: 40%;
-    padding: 5rem;
-}
-
-form > h1 {
-    font-size: min(4vw, 2rem);
+    height: max(90%, 17rem);
 }
 
 input {
@@ -181,6 +176,12 @@ input {
 
 input:focus {
     outline: 3px solid white; /*todo red or green depending on min and max len*/
+}
+
+#submit {
+    border: none;
+    font-size: min(4vw, 2rem);
+    width: 12rem;
 }
 
 #submit:hover {

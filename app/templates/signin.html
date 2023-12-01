@@ -17,11 +17,17 @@
 
     <main>
         <form id="signin-form" method="POST" action="">
-            <h1>SIGN IN</h1>
             {{ form.hidden_tag() }}
             {{ form.name }}
             {{ form.password }}
             {{ form.submit }}
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <h1 class="{{ category }}">{{ message }}</h1>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
         </form>
         {#todo            Don't have an account? <a href="{{ url_for('register') }}">REGISTER</a>#}
         {#        {% if form.name.errors %}#}
@@ -32,13 +38,7 @@
         {#            </ul>#}
         {#        {% endif %}#}
 
-        {% with messages = get_flashed_messages(with_categories=true) %}
-            {% if messages %}
-                {% for category, message in messages %}
-                    <h1 class="{{ category }}">{{ message }}</h1>
-                {% endfor %}
-            {% endif %}
-        {% endwith %}
+
     </main>
 </div>
 <script src="{{ url_for('static', filename="scripts/Effect.js") }}"></script>

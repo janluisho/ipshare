@@ -19,7 +19,8 @@ document.querySelectorAll('[data-letters], [data-numbers]').forEach(function (el
                 chars = numbers;
             }
 
-            event.target.innerText = event.target.innerText
+            if (event.target.localName === "input") {
+                event.target.value = event.target.value
                 .split("")
                 .map((letter, index) => {
                     if(index < element.iteration) {
@@ -29,6 +30,18 @@ document.querySelectorAll('[data-letters], [data-numbers]').forEach(function (el
                     }
                 })
                 .join("");
+            } else {
+                event.target.innerText = event.target.innerText
+                .split("")
+                .map((letter, index) => {
+                    if(index < element.iteration) {
+                        return data[index]
+                    } else {
+                        return chars[Math.floor(Math.random() * chars.length)]
+                    }
+                })
+                .join("");
+            }
 
             if(element.iteration >= data.length){
                 clearInterval(element.inverval);
