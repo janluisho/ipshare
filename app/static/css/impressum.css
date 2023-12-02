@@ -16,9 +16,9 @@
 }
 
 
-#mail {
+#impressum > p > a {
     text-decoration: underline var(--forground-color);
 }
-#mail:hover {
+#impressum > p > a:hover {
     text-decoration: underline var(--forground-highlight-color);
 }
