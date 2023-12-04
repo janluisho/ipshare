@@ -1,9 +1,12 @@
 const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 const numbers = "1234567890";
+const dots = "•";
 
 const scramble = (data, chars, element) => {
     return (letter, index) => {
-        if (index < element.iteration) {
+        if (data[index] === " ") {
+            return " " // data[index]
+        } else if (index < element.iteration) {
             return data[index]
         } else {
             return chars[Math.floor(Math.random() * chars.length)]
@@ -15,9 +18,9 @@ const scramble = (data, chars, element) => {
 const scramble_intervall_handler = (target, element, data, chars) => {
     return () => {
         if (target.localName === "input") {
-            target.value = target.value.split("").map(scramble(data, chars, element)).join("");
+            target.value = data.split("").map(scramble(data, chars, element)).join("");
         } else {
-            target.innerText = target.innerText.split("").map(scramble(data, chars, element)).join("");
+            target.innerText = data.split("").map(scramble(data, chars, element)).join("");
         }
 
         if (element.iteration >= data.length) {
