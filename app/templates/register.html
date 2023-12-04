@@ -1,16 +1,18 @@
 {% extends 'base.html' %}
 {% block title %}register{% endblock %}
+{% block style %}<link rel="stylesheet" href="{{ url_for('static', filename="css/register.css") }}">{% endblock %}
+{% block js %}<script src="{{ url_for('static', filename="scripts/register.js") }}"></script>{% endblock %}
 
 {% block nav %}
     <a href="{{ url_for("root") }}" data-letters="IPSHARE">IPSHARE</a>
     <a href="https://github.com/janluisho/ipshare" data-letters="GITHUB">GITHUB</a>
     <a href="{{ url_for("impressum") }}" data-letters="IMPRESSUM">IMPRESSUM</a>
     <div id="nav-space"></div>
-    <a href="{{ url_for("register") }}" data-letters="REGISTER">REGISTER</a>
+    <a href="{{ url_for("signin") }}" data-letters="SIGN IN">SIGN IN</a>
 {% endblock %}
 
 {% block main %}
-    <div id="register">
+    <div id="register-container">
         <form id="register-form" method="POST" action="">
             {{ form.hidden_tag() }}
             {{ form.name }}
@@ -24,6 +26,18 @@
                 {% endif %}
             {% endwith %}
         </form>
+        <div>
+            <p id="desc_text" data-desc="">
+                Lorem ipsum dolor sit amet, consetetur sadipscing elitr,
+                sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat,
+                sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.
+                Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+                Lorem ipsum dolor sit amet, consetetur sadipscing elitr,
+                sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.
+                At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren,
+                no sea takimata sanctus est Lorem ipsum dolor sit amet.
+            </p>
+        </div>
 
     </div>
 {% endblock %}

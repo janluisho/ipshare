@@ -5,9 +5,11 @@ from wtforms.validators import InputRequired, Length, ValidationError
 
 
 class RegisterForm(FlaskForm):
-    name = StringField(validators=[InputRequired(), Length(min=2, max=69)], render_kw={"placeholder": "PSEUDONYM"})
-    password = PasswordField(validators=[InputRequired(), Length(min=2, max=69)], render_kw={"placeholder": "PASSWORD"})
-    submit = SubmitField('Register')
+    name = StringField(validators=[InputRequired(), Length(min=2, max=69)],
+                       render_kw={"placeholder": "PSEUDONYM", "data-desc": "PSEUDONYM"})
+    password = PasswordField(validators=[InputRequired(), Length(min=2, max=69)],
+                             render_kw={"placeholder": "PASSWORD", "data-desc": "PASSWORD"})
+    submit = SubmitField('REGISTER', render_kw={"data-letters": "REGISTER"})
 
     def validate_username(self, name):
         existing_user_username = User.query.filter_by(name=name.data).first()

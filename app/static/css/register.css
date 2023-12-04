@@ -1,3 +1,21 @@
+
+#register-container {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 100%;
+    height: max(90%, var(--from_height));
+    column-gap: 10vw
+}
+
+#desc_text {
+    width: 30rem;
+}
+
+
 form {
     display: flex;
     justify-content: center;
@@ -5,8 +23,7 @@ form {
     align-items: center;
     flex-direction: column;
     row-gap: 2rem;
-    width: 100%;
-    height: max(90%, var(--from_height));
+    height: var(--from_height);
 }
 
 input {
@@ -33,10 +50,6 @@ input:focus {
 #submit:hover {
     color: var(--forground-highlight-color);
     background: var(--background-highlight-color);
-}
-
-.user-or-pw-wrong {
-    background: darkred;
 }
 
 .error {
