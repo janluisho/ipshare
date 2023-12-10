@@ -20,7 +20,7 @@ const typewriter_intervall_handler = (target, element, data) => {
 };
 
 
-document.querySelectorAll('#name, #password').forEach(function (element) {
+document.querySelectorAll('#name, #password, #remember').forEach(function (element) {
     element.inverval = null;
 
     element.onfocus = event => {

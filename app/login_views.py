@@ -31,12 +31,17 @@ def register():
     form = RegisterForm()
 
     if form.validate_on_submit():
-        hashed_password = bcrypt.generate_password_hash(form.password.data)
-        new_user = User(name=form.name.data, password=hashed_password)
-        db.session.add(new_user)
-        db.session.commit()
-        login_user(new_user, remember=True)
-        return redirect(url_for('signin'))
+        user = User.query.filter_by(name=form.name.data).first()
+        if user:
+            flash('This PSEUDONYM is already in use', 'error')
+            form.name.render_kw.update({"class": "user-or-pw-wrong"})
+        else:
+            hashed_password = bcrypt.generate_password_hash(form.password.data)
+            new_user = User(name=form.name.data, password=hashed_password)
+            db.session.add(new_user)
+            db.session.commit()
+            login_user(new_user, remember=form.remember.data)
+            return redirect(url_for('signin'))
 
     return render_template('register.html', form=form)
 

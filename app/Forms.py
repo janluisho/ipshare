@@ -1,6 +1,6 @@
 from db import User
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField
+from wtforms import StringField, PasswordField, SubmitField, BooleanField
 from wtforms.validators import InputRequired, Length, ValidationError
 
 
@@ -9,6 +9,7 @@ class RegisterForm(FlaskForm):
                        render_kw={"placeholder": "PSEUDONYM", "data-desc": "PSEUDONYM"})
     password = PasswordField(validators=[InputRequired(), Length(min=2, max=69)],
                              render_kw={"placeholder": "PASSWORD", "data-desc": "PASSWORD"})
+    remember = BooleanField(render_kw={"data-desc": "REMEMBER ME"})
     submit = SubmitField('REGISTER', render_kw={"data-letters": "REGISTER"})
 
     def validate_username(self, name):

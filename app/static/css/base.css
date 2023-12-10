@@ -41,7 +41,7 @@ nav > a {
     flex-grow: 1;
 }
 
-h1, a, th, p {
+h1, a, th, p, label {
     color: var(--forground-color);
     background: var(--background-color);
     font-family: 'Space Mono', monospace;

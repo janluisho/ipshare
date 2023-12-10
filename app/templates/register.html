@@ -17,6 +17,10 @@
             {{ form.hidden_tag() }}
             {{ form.name }}
             {{ form.password }}
+            <div id="remember-container">
+                {{ form.remember }}
+                <label for="remember" data-letters="REMEMBER ME">REMEMBER ME</label>
+            </div>
             {{ form.submit }}
             {% with messages = get_flashed_messages(with_categories=true) %}
                 {% if messages %}
