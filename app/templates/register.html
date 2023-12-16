@@ -1,7 +1,9 @@
 {% extends 'base.html' %}
 {% block title %}register{% endblock %}
-{% block style %}<link rel="stylesheet" href="{{ url_for('static', filename="css/register.css") }}">{% endblock %}
-{% block js %}<script src="{{ url_for('static', filename="scripts/register.js") }}"></script>{% endblock %}
+{% block style %}
+    <link rel="stylesheet" href="{{ url_for('static', filename="css/register.css") }}">{% endblock %}
+{% block js %}
+    <script src="{{ url_for('static', filename="scripts/register.js") }}"></script>{% endblock %}
 
 {% block nav %}
     <a href="{{ url_for("root") }}" data-letters="IPSHARE">IPSHARE</a>
@@ -17,9 +19,10 @@
             {{ form.hidden_tag() }}
             {{ form.name }}
             {{ form.password }}
-            <div id="remember-container">
+            <div id="remember-container" data-desc="REMEMBER ME" data-heading="REMEMBER ME" tabindex="3">
                 {{ form.remember }}
-                <label for="remember" data-letters="REMEMBER ME">REMEMBER ME</label>
+                <label for="remember">REMEMBER ME</label>
+{#                data-letters="REMEMBER ME"#}
             </div>
             {{ form.submit }}
             {% with messages = get_flashed_messages(with_categories=true) %}

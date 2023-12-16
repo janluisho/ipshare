@@ -20,14 +20,14 @@ const typewriter_intervall_handler = (target, element, data) => {
 };
 
 
-document.querySelectorAll('#name, #password, #remember').forEach(function (element) {
+document.querySelectorAll('#name, #password, #remember, #remember-container').forEach(function (element) {
     element.inverval = null;
 
     element.onfocus = event => {
         desc_heading.iteration = 0;
         clearInterval(desc_heading.inverval);
         desc_heading.inverval = setInterval(typewriter_intervall_handler(
-            desc_heading, desc_heading, event.target.placeholder
+            desc_heading, desc_heading, event.target.dataset.heading
         ), 20);
 
         desc_text.iteration = 0;

@@ -38,22 +38,71 @@ input {
 }
 
 input:focus {
-    outline: 3px solid white; /*todo red or green depending on min and max len*/
+    outline: 2px solid white; /*todo red or green depending on min and max len*/
 }
+
 
 #remember-container {
     width: 25rem;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: row;
-    column-gap: 2rem;
 }
 
-#remember {
-    width: 1.1rem;
-    height: 1.1rem;
-    background: var(--background-color);
+#remember-container:focus {
+    outline: none;
+}
+
+#remember-container input[type="checkbox"] {
+    display: none;
+    visibility: hidden;
+}
+
+#remember-container label {
+    position: relative;
+    cursor: pointer;
+    display: inline-flex;
+    justify-content: center;
+    background-color: rgba(1, 1, 1, 0);
+    color: var(--negative-color);
+    width: 100%;
+    padding-left: 0.8em;
+}
+
+#remember-container label:before {
+    box-sizing: border-box;
+    content: " ";
+    position: absolute;
+    top: 0.2em;
+    left: 4.5em;
+    display: block;
+    width: 0.8em;
+    height: 0.8em;
+    border: 1px solid var(--negative-color);
+    border-radius: clamp(0.1rem, 0.3vw, 1rem);
+    z-index: -1;
+}
+
+#remember-container:focus label:before {
+    border-width: 2px;
+}
+
+
+#remember-container input[type=checkbox]:checked + label {
+    color: var(--positive-color);
+    justify-content: center;
+    padding-left: 0;
+}
+
+#remember-container input[type=checkbox]:checked + label:before {
+    top: 0;
+    left: 0;
+    width: 25rem;
+    height: calc(1.2em + 2.65px);
+    padding: 1px;
+    border-color: var(--positive-color);
+    border-radius: clamp(0.1rem, 0.5vw, 1rem);
+}
+
+#remember-container label, #remember-container label::before {
+  transition: 0.25s all ease;
 }
 
 #submit {
@@ -68,5 +117,5 @@ input:focus {
 }
 
 .error {
-    color: red;
+    color: var(--negative-color);
 }
