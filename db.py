@@ -2,11 +2,13 @@ from app import app, db
 from flask_login import UserMixin
 
 
+# sqlalchemy.exc.InvalidRequestError: remove views and login_views import in app temporarily
 class User(db.Model, UserMixin):
     id: db.Mapped[int] = db.mapped_column(db.Integer, primary_key=True)
     name: db.Mapped[str] = db.mapped_column(db.String(69), unique=True)
     password: db.Mapped[str] = db.mapped_column(db.String(69))
     # The salt is stored in the password field as well.
+    remember: db.Mapped[bool] = db.mapped_column(db.Boolean())
 
 
 class SharedAddresses(db.Model):
@@ -21,5 +23,5 @@ if __name__ == "__main__":
         db.create_all()
 
         # add a user for visitors
-        db.session.add(User(id=0, name="VISITORS", password=""))
+        db.session.add(User(id=0, name="VISITORS", password="", remember=False))
         db.session.commit()

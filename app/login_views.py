@@ -37,7 +37,7 @@ def register():
             form.name.render_kw.update({"class": "user-or-pw-wrong"})
         else:
             hashed_password = bcrypt.generate_password_hash(form.password.data)
-            new_user = User(name=form.name.data, password=hashed_password)
+            new_user = User(name=form.name.data, password=hashed_password, remember=form.remember.data)
             db.session.add(new_user)
             db.session.commit()
             login_user(new_user, remember=form.remember.data)
@@ -56,7 +56,7 @@ def signin():
         user = User.query.filter_by(name=form.name.data).first()
         if user:
             if bcrypt.check_password_hash(user.password, form.password.data):
-                login_user(user, remember=True)
+                login_user(user, remember=user.remember)
                 return redirect(url_for('root'))  # todo: maybe change to /now
             elif DISTINGUISH_NAME_PW_WRONG:
                 flash('Invalid password provided', 'error')
