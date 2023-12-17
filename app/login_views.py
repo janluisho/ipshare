@@ -3,7 +3,7 @@ from flask import redirect, url_for, flash, render_template, request
 from flask_login import login_user, login_required, fresh_login_required, logout_user
 from flask_bcrypt import Bcrypt
 from flask_login import LoginManager, current_user
-from app.Forms import RegisterForm, LoginForm, ChangePseudonymForm, ChangePasswordForm
+from app.Forms import RegisterForm, LoginForm, ChangePseudonymForm, ChangePasswordForm, InvalidateTokensForm
 from app import app, db, limiter
 from db import User
 
@@ -102,14 +102,13 @@ def signout():
 def me():
     pseudonym_form = ChangePseudonymForm()
     password_form = ChangePasswordForm()
+    invalidate_form = InvalidateTokensForm()
 
     if pseudonym_form.validate_on_submit():
         user = User.query.filter_by(name=pseudonym_form.name.data).first()
         if not user:
             current_user.name = pseudonym_form.name.data
             db.session.commit()
-            logout_user()
-            return redirect(url_for('signin'))
         elif user.id == current_user.id:
             flash('You already have that PSEUDONYM', 'warning')
             pseudonym_form.name.render_kw.update({"class": "user-or-pw-wrong"})
@@ -124,11 +123,18 @@ def me():
         logout_user()
         return redirect(url_for('signin'))
 
+    if invalidate_form.validate_on_submit():
+        current_user.alternative_id = uuid4()  # invalidate tokens see: https://flask-login.readthedocs.io/en/latest/#alternative-tokens
+        db.session.commit()
+        logout_user()
+        return redirect(url_for('signin'))
+
     return render_template(
         'me.html',
         current_user=current_user,
         pseudonym_form=pseudonym_form,
-        password_form=password_form
+        password_form=password_form,
+        invalidate_form=invalidate_form,
     )
 
 

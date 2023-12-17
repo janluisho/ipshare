@@ -36,12 +36,9 @@
         {{ password_form.hidden_tag() }}
         {{ password_form.password }}
         {{ password_form.submit }}
-        {% with messages = get_flashed_messages(with_categories=true) %}
-            {% if messages %}
-                {% for category, message in messages %}
-                    <h1 class="{{ category }}">{{ message }}</h1>
-                {% endfor %}
-            {% endif %}
-        {% endwith %}
+    </form>
+    <form id="invalidate-form" method="POST" action="">
+        {{ invalidate_form.hidden_tag() }}
+        {{ invalidate_form.submit }}
     </form>
 {% endblock %}

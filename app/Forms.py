@@ -100,3 +100,7 @@ class ChangePasswordForm(FlaskForm):
         }
     )
     submit = SubmitField('CHANGE PASSWORD', render_kw={"data-letters": "CHANGE PASSWORD"})
+
+
+class InvalidateTokensForm(FlaskForm):
+    submit = SubmitField('INVALIDATE TOKENS', render_kw={"data-letters": "INVALIDATE TOKENS"})
