@@ -1,13 +1,13 @@
+from uuid import UUID, uuid4
 from flask import redirect, url_for, flash, render_template
-from flask_login import login_user, login_required, logout_user
+from flask_login import login_user, login_required, fresh_login_required, logout_user
 from flask_bcrypt import Bcrypt
-from flask_login import LoginManager
-from app.Forms import RegisterForm, LoginForm
+from flask_login import LoginManager, current_user
+from app.Forms import RegisterForm, LoginForm, ChangePseudonymForm, ChangePasswordForm
 from app import app, db, limiter
 from db import User
 
 DISTINGUISH_NAME_PW_WRONG = True
-
 
 # -----  -----  ----- Login -----  -----  -----
 bcrypt = Bcrypt(app)
@@ -18,7 +18,11 @@ login_manager.login_view = 'signin'
 
 @login_manager.user_loader
 def load_user(user_id):
-    return User.query.get(int(user_id))
+    if isinstance(user_id, str):
+        user_id = UUID(user_id)
+    return User.query.filter_by(alternative_id=user_id).first()
+    # see: https://flask-login.readthedocs.io/en/latest/#alternative-tokens
+    # return User.query.get(int(user_id))
 
 
 # -----  -----  ----- Views -----  -----  -----
@@ -41,7 +45,7 @@ def register():
             db.session.add(new_user)
             db.session.commit()
             login_user(new_user, remember=form.remember.data)
-            return redirect(url_for('signin'))
+            return redirect(url_for('root'))
 
     return render_template('register.html', form=form)
 
@@ -83,6 +87,46 @@ def signout():
     return redirect(url_for('root'))
 
 
+@app.route('/me', methods=['GET', 'POST'])
+@fresh_login_required
+def me():
+    pseudonym_form = ChangePseudonymForm()
+    password_form = ChangePasswordForm()
+
+    if pseudonym_form.validate_on_submit():
+        user = User.query.filter_by(name=pseudonym_form.name.data).first()
+        if not user:
+            current_user.name = pseudonym_form.name.data
+            db.session.commit()
+            logout_user()
+            return redirect(url_for('signin'))
+        elif user.id == current_user.id:
+            flash('You already have that PSEUDONYM', 'warning')
+            pseudonym_form.name.render_kw.update({"class": "user-or-pw-wrong"})
+        else:
+            flash('This PSEUDONYM is already in use', 'error')
+            pseudonym_form.name.render_kw.update({"class": "user-or-pw-wrong"})
+
+    if password_form.validate_on_submit():
+        current_user.password = bcrypt.generate_password_hash(password_form.password.data)
+        current_user.alternative_id = uuid4()  # invalidate tokens see: https://flask-login.readthedocs.io/en/latest/#alternative-tokens
+        db.session.commit()
+        logout_user()
+        return redirect(url_for('signin'))
+
+    return render_template(
+        'me.html',
+        current_user=current_user,
+        pseudonym_form=pseudonym_form,
+        password_form=password_form
+    )
+
+
 @login_manager.unauthorized_handler
 def unauthorized_handler():
     return 'Unauthorized', 401
+
+
+@login_manager.needs_refresh_handler
+def refresh():
+    return redirect(url_for('signin'))

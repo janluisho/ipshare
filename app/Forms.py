@@ -11,6 +11,7 @@ class RegisterForm(FlaskForm):
             Length(min=2, max=69)],
         render_kw={
             "placeholder": "PSEUDONYM",
+            "autocomplete": "off",
             "data-desc": "PSEUDONYM",
             "data-heading": "PASSWORD",
             "tabindex": 1
@@ -22,6 +23,7 @@ class RegisterForm(FlaskForm):
             Length(min=2, max=69)],
         render_kw={
             "placeholder": "PASSWORD",
+            "autocomplete": "new-password",
             "data-desc": "PASSWORD",
             "data-heading": "PASSWORD",
             "tabindex": 2
@@ -49,6 +51,52 @@ class RegisterForm(FlaskForm):
 
 
 class LoginForm(FlaskForm):
-    name = StringField(validators=[InputRequired(), Length(min=2, max=69)], render_kw={"placeholder": "PSEUDONYM"})
-    password = PasswordField(validators=[InputRequired(), Length(min=2, max=69)], render_kw={"placeholder": "PASSWORD"})
+    name = StringField(
+        validators=[
+            InputRequired(),
+            Length(min=2, max=69)
+        ],
+        render_kw={
+            "placeholder": "PSEUDONYM",
+            "autocomplete": "username"
+        }
+    )
+    password = PasswordField(
+        validators=[
+            InputRequired(),
+            Length(min=2, max=69)
+        ],
+        render_kw={
+            "placeholder": "PASSWORD",
+            "autocomplete": "current-password",
+        }
+    )
     submit = SubmitField('SIGN IN', render_kw={"data-letters": "SIGN IN"})
+
+
+class ChangePseudonymForm(FlaskForm):
+    name = StringField(
+        validators=[
+            InputRequired(),
+            Length(min=2, max=69)
+        ],
+        render_kw={
+            "placeholder": "PSEUDONYM",
+            "autocomplete": "off",
+        }
+    )
+    submit = SubmitField('CHANGE PSEUDONYM', render_kw={"data-letters": "CHANGE PSEUDONYM"})
+
+
+class ChangePasswordForm(FlaskForm):
+    password = PasswordField(
+        validators=[
+            InputRequired(),
+            Length(min=2, max=69)
+        ],
+        render_kw={
+            "placeholder": "PASSWORD",
+            "autocomplete": "new-password",
+        }
+    )
+    submit = SubmitField('CHANGE PASSWORD', render_kw={"data-letters": "CHANGE PASSWORD"})

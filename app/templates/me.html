@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% block title %}register{% endblock %}
+{% block style %}
+    <link rel="stylesheet" href="{{ url_for('static', filename="css/me.css") }}">{% endblock %}
+{% block js %}
+    <script src="{{ url_for('static', filename="scripts/me.js") }}"></script>{% endblock %}
+
+{% block nav %}
+    <a href="{{ url_for("root") }}" data-letters="IPSHARE">IPSHARE</a>
+    <a href="https://github.com/janluisho/ipshare" data-letters="GITHUB">GITHUB</a>
+    <a href="{{ url_for("impressum") }}" data-letters="IMPRESSUM">IMPRESSUM</a>
+    <div id="nav-space"></div>
+    <a href="{{ url_for("signout") }}" data-letters="SIGN OUT">SIGN OUT</a>
+{% endblock %}
+
+{% block main %}
+    <div id="info">
+        <ul>
+            <li>CURRENT PSEUDONYM: {{ current_user.name }}</li>
+        </ul>
+    </div>
+
+    <form id="pseudonym-form" method="POST" action="">
+        {{ pseudonym_form.hidden_tag() }}
+        {{ pseudonym_form.name }}
+        {{ pseudonym_form.submit }}
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <h1 class="{{ category }}">{{ message }}</h1>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+    </form>
+    <form id="password-form" method="POST" action="">
+        {{ password_form.hidden_tag() }}
+        {{ password_form.password }}
+        {{ password_form.submit }}
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <h1 class="{{ category }}">{{ message }}</h1>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+    </form>
+{% endblock %}
