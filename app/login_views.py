@@ -1,5 +1,5 @@
 from uuid import UUID, uuid4
-from flask import redirect, url_for, flash, render_template
+from flask import redirect, url_for, flash, render_template, request
 from flask_login import login_user, login_required, fresh_login_required, logout_user
 from flask_bcrypt import Bcrypt
 from flask_login import LoginManager, current_user
@@ -23,6 +23,16 @@ def load_user(user_id):
     return User.query.filter_by(alternative_id=user_id).first()
     # see: https://flask-login.readthedocs.io/en/latest/#alternative-tokens
     # return User.query.get(int(user_id))
+
+
+# -----  -----  ----- Next -----  -----  -----
+def redirect_next():
+    dest = request.args.get('next', default="root")
+    try:
+        dest_url = url_for(dest)
+    except:
+        return redirect(url_for("root"))
+    return redirect(dest_url)
 
 
 # -----  -----  ----- Views -----  -----  -----
@@ -61,7 +71,7 @@ def signin():
         if user:
             if bcrypt.check_password_hash(user.password, form.password.data):
                 login_user(user, remember=user.remember)
-                return redirect(url_for('root'))  # todo: maybe change to /now
+                return redirect_next()
             elif DISTINGUISH_NAME_PW_WRONG:
                 flash('Invalid password provided', 'error')
                 form.name.render_kw.update({"class": ""})
@@ -124,7 +134,7 @@ def me():
 
 @login_manager.unauthorized_handler
 def unauthorized_handler():
-    return 'Unauthorized', 401
+    return redirect(url_for('signin', next=request.endpoint))
 
 
 @login_manager.needs_refresh_handler
