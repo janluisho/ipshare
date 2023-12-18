@@ -1,7 +1,9 @@
 {% extends 'base.html' %}
 {% block title %}register{% endblock %}
 {% block style %}
-    <link rel="stylesheet" href="{{ url_for('static', filename="css/me.css") }}">{% endblock %}
+    <link rel="stylesheet" href="{{ url_for('static', filename="css/me.css") }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename="css/checkbox.css") }}">
+{% endblock %}
 {% block js %}
     <script src="{{ url_for('static', filename="scripts/me.js") }}"></script>{% endblock %}
 
@@ -15,6 +17,7 @@
 
 {% block main %}
     <div id="info">
+        <h1>USER INFO</h1>
         <ul>
             <li>CURRENT PSEUDONYM: {{ current_user.name }}</li>
         </ul>
@@ -23,7 +26,7 @@
     <form id="pseudonym-form" method="POST" action="">
         {{ pseudonym_form.hidden_tag() }}
         {{ pseudonym_form.name }}
-        {{ pseudonym_form.submit }}
+        {{ pseudonym_form.submit_name }}
         {% with messages = get_flashed_messages(with_categories=true) %}
             {% if messages %}
                 {% for category, message in messages %}
@@ -35,10 +38,26 @@
     <form id="password-form" method="POST" action="">
         {{ password_form.hidden_tag() }}
         {{ password_form.password }}
-        {{ password_form.submit }}
+        {{ password_form.submit_password }}
     </form>
     <form id="invalidate-form" method="POST" action="">
         {{ invalidate_form.hidden_tag() }}
-        {{ invalidate_form.submit }}
+        {{ invalidate_form.submit_invalidate }}
+    </form>
+    <form id="settings-form" method="POST" action="">
+        {{ settings_form.hidden_tag() }}
+        <div class="checkbox-container" style="--chars: 10ch;">
+            {{ settings_form.remember }}
+            <label for="remember">REMEMBER ME</label>
+        </div>
+        {{ settings_form.submit_remember }}
+    </form>
+    <form id="delete-form" method="POST" action="">
+        {{ delete_form.hidden_tag() }}
+        <div class="checkbox-container" style="--chars: 14ch;">
+            {{ delete_form.confirm_delete }}
+            <label for="confirm_delete">CONFIRM DELETE</label>
+        </div>
+        {{ delete_form.submit_delete }}
     </form>
 {% endblock %}

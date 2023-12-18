@@ -36,7 +36,7 @@ class RegisterForm(FlaskForm):
             "tabindex": 3
         }
     )
-    submit = SubmitField(
+    submit_register = SubmitField(
         label='REGISTER',
         render_kw={
             "data-letters": "REGISTER",
@@ -71,7 +71,7 @@ class LoginForm(FlaskForm):
             "autocomplete": "current-password",
         }
     )
-    submit = SubmitField('SIGN IN', render_kw={"data-letters": "SIGN IN"})
+    submit_login = SubmitField('SIGN IN', render_kw={"data-letters": "SIGN IN"})
 
 
 class ChangePseudonymForm(FlaskForm):
@@ -85,7 +85,7 @@ class ChangePseudonymForm(FlaskForm):
             "autocomplete": "off",
         }
     )
-    submit = SubmitField('CHANGE PSEUDONYM', render_kw={"data-letters": "CHANGE PSEUDONYM"})
+    submit_name = SubmitField('CHANGE PSEUDONYM', render_kw={"data-letters": "CHANGE PSEUDONYM"})
 
 
 class ChangePasswordForm(FlaskForm):
@@ -99,8 +99,23 @@ class ChangePasswordForm(FlaskForm):
             "autocomplete": "new-password",
         }
     )
-    submit = SubmitField('CHANGE PASSWORD', render_kw={"data-letters": "CHANGE PASSWORD"})
+    submit_password = SubmitField('CHANGE PASSWORD', render_kw={"data-letters": "CHANGE PASSWORD"})
 
 
 class InvalidateTokensForm(FlaskForm):
-    submit = SubmitField('INVALIDATE TOKENS', render_kw={"data-letters": "INVALIDATE TOKENS"})
+    submit_invalidate = SubmitField('INVALIDATE TOKENS', render_kw={"data-letters": "INVALIDATE TOKENS"})
+
+
+class SettingsForm(FlaskForm):
+    remember = BooleanField(
+        render_kw={
+            "data-desc": "REMEMBER ME",
+            "data-heading": "REMEMBER ME",
+        }
+    )
+    submit_remember = SubmitField('UPDATE', render_kw={"data-letters": "UPDATE"})
+
+
+class DeleteForm(FlaskForm):
+    confirm_delete = BooleanField()
+    submit_delete = SubmitField('DELETE', render_kw={"data-letters": "DELETE"})

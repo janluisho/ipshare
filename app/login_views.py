@@ -3,7 +3,8 @@ from flask import redirect, url_for, flash, render_template, request
 from flask_login import login_user, login_required, fresh_login_required, logout_user
 from flask_bcrypt import Bcrypt
 from flask_login import LoginManager, current_user
-from app.Forms import RegisterForm, LoginForm, ChangePseudonymForm, ChangePasswordForm, InvalidateTokensForm
+from app.Forms import RegisterForm, LoginForm, ChangePseudonymForm, ChangePasswordForm, InvalidateTokensForm, \
+    SettingsForm, DeleteForm
 from app import app, db, limiter
 from db import User
 
@@ -27,6 +28,7 @@ def load_user(user_id):
 
 # -----  -----  ----- Next -----  -----  -----
 def redirect_next():
+    """https://stackoverflow.com/questions/36269485/how-do-i-pass-through-the-next-url-with-flask-and-flask-login"""
     dest = request.args.get('next', default="root")
     try:
         dest_url = url_for(dest)
@@ -103,6 +105,8 @@ def me():
     pseudonym_form = ChangePseudonymForm()
     password_form = ChangePasswordForm()
     invalidate_form = InvalidateTokensForm()
+    settings_form = SettingsForm()
+    delete_form = DeleteForm()
 
     if pseudonym_form.validate_on_submit():
         user = User.query.filter_by(name=pseudonym_form.name.data).first()
@@ -116,14 +120,22 @@ def me():
             flash('This PSEUDONYM is already in use', 'error')
             pseudonym_form.name.render_kw.update({"class": "user-or-pw-wrong"})
 
-    if password_form.validate_on_submit():
+    elif password_form.validate_on_submit():
         current_user.password = bcrypt.generate_password_hash(password_form.password.data)
         current_user.alternative_id = uuid4()  # invalidate tokens see: https://flask-login.readthedocs.io/en/latest/#alternative-tokens
         db.session.commit()
         logout_user()
         return redirect(url_for('signin'))
 
-    if invalidate_form.validate_on_submit():
+    elif delete_form.validate_on_submit():
+        if delete_form.confirm_delete.data:
+            db.session.delete(current_user)
+            # todo delete corresponding devices ips etc.
+            db.session.commit()
+            logout_user()
+            return redirect(url_for('root'))
+
+    elif invalidate_form.validate_on_submit():
         current_user.alternative_id = uuid4()  # invalidate tokens see: https://flask-login.readthedocs.io/en/latest/#alternative-tokens
         db.session.commit()
         logout_user()
@@ -135,6 +147,8 @@ def me():
         pseudonym_form=pseudonym_form,
         password_form=password_form,
         invalidate_form=invalidate_form,
+        settings_form=settings_form,
+        delete_form=delete_form,
     )
 
 

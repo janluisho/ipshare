@@ -15,7 +15,7 @@
         {{ form.hidden_tag() }}
         {{ form.name }}
         {{ form.password }}
-        {{ form.submit }}
+        {{ form.submit_login }}
         {% with messages = get_flashed_messages(with_categories=true) %}
             {% if messages %}
                 {% for category, message in messages %}
