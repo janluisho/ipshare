@@ -1,10 +1,21 @@
+from app.SessionLessCSRF import SessionLessCSRF
 from db import User
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField, BooleanField
 from wtforms.validators import InputRequired, Length, ValidationError
 
 
-class RegisterForm(FlaskForm):
+class SessionLessCSRFForm(FlaskForm):
+    """
+    This CSRF Token doesn't really protect anything for now.
+    It isn't very safe as well. So assume there is no token.
+    """
+    class Meta:
+        csrf = True
+        csrf_class = SessionLessCSRF
+
+
+class RegisterForm(SessionLessCSRFForm):
     name = StringField(
         validators=[
             InputRequired(),
@@ -50,7 +61,7 @@ class RegisterForm(FlaskForm):
             raise ValidationError('That pseudonym is already used.')
 
 
-class LoginForm(FlaskForm):
+class LoginForm(SessionLessCSRFForm):
     name = StringField(
         validators=[
             InputRequired(),

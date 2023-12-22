@@ -1,5 +1,5 @@
 from uuid import UUID, uuid4
-from flask import redirect, url_for, flash, render_template, request
+from flask import redirect, url_for, flash, render_template, request, g
 from flask_login import login_user, login_required, fresh_login_required, logout_user
 from flask_bcrypt import Bcrypt
 from flask_login import LoginManager, current_user
@@ -44,7 +44,12 @@ def redirect_next():
 @limiter.limit("5/day", methods=['POST'])
 def register():
     """Account Erstellen"""
-    form = RegisterForm()
+    if request.environ.get('HTTP_X_FORWARDED_FOR') is None:
+        ip_addr = request.environ['REMOTE_ADDR']
+    else:
+        ip_addr = request.environ['HTTP_X_FORWARDED_FOR']  # if behind a prox
+
+    form = RegisterForm(meta={'csrf_context': ip_addr})
 
     if form.validate_on_submit():
         user = User.query.filter_by(name=form.name.data).first()
@@ -66,7 +71,12 @@ def register():
 @limiter.limit("10/day;5/hour;3/minute", methods=['POST'])  # deduct_when=lambda response: response.status_code != 302)
 def signin():
     """Login"""
-    form = LoginForm()
+    if request.environ.get('HTTP_X_FORWARDED_FOR') is None:
+        ip_addr = request.environ['REMOTE_ADDR']
+    else:
+        ip_addr = request.environ['HTTP_X_FORWARDED_FOR']  # if behind a prox
+
+    form = LoginForm(meta={'csrf_context': ip_addr})
 
     if form.validate_on_submit():
         user = User.query.filter_by(name=form.name.data).first()

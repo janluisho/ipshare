@@ -1,7 +1,9 @@
 from flask import Flask, make_response, render_template
+from flask_login import current_user
 from flask_sqlalchemy import SQLAlchemy
 from flask_limiter import Limiter, RequestLimit
 from flask_limiter.util import get_remote_address
+from flask.sessions import SecureCookieSessionInterface
 
 # -----  -----  ----- App -----  -----  -----
 app = Flask(__name__)
@@ -24,6 +26,17 @@ limiter = Limiter(
     storage_uri="memory://",
     on_breach=default_error_responder,
 )
+
+
+# -----  -----  ----- Custom Session Interface -----  -----  -----
+class CustomSessionInterface(SecureCookieSessionInterface):
+    def save_session(self, *args, **kwargs):
+        if not current_user.is_authenticated:
+            return
+        return super(CustomSessionInterface, self).save_session(*args, **kwargs)
+
+
+app.session_interface = CustomSessionInterface()
 
 
 # -----  -----  ----- Includes -----  -----  -----
