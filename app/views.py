@@ -1,3 +1,4 @@
+import re
 from datetime import datetime
 from db import SharedAddresses
 from flask import request, render_template, redirect, url_for
@@ -24,6 +25,37 @@ def format_last_updated(last_updated):
         return f"{minutes} {'minute' if minutes == 1 else 'minutes'} ago"
     else:
         return f"{seconds} {'second' if seconds == 1 else 'seconds'} ago"
+
+
+user_agent_regex = re.compile(r"\((.+?)\)|\S+")
+def split_user_agent(user_agent):
+    matches = user_agent_regex.finditer(user_agent)
+    mozilla = next(matches).group()
+    system_information = next(matches).group()
+    gecko_version = next(matches).group()
+    extensions = "".join([match.group() for match in matches])
+
+    if "Windows" in system_information:
+        system = "Windows"
+    elif "Linux" in system_information:
+        system = "Linux"
+    elif "Macintosh" in system_information:
+        system = "Macintosh"
+    else:
+        system = system_information
+
+    if "Firefox" in extensions:
+        browser = "Firefox"
+    elif "Edg" in extensions:
+        browser = "Edge"
+    elif "OPR" in extensions:
+        browser = "Opera"
+    elif "Chrome" in extensions:
+        browser = "Chrome"
+    else:
+        browser = ""
+
+    return f"{browser} {system}"
 
 
 @app.route('/')
@@ -66,11 +98,12 @@ def now():
         ip_addr = request.environ['HTTP_X_FORWARDED_FOR']  # if behind a prox
 
     if current_user.is_authenticated:
-        shared_addr = SharedAddresses.query.filter_by(user=current_user.id, device_name="").first()
+        device_name = split_user_agent(request.headers.get("User-Agent"))
+        shared_addr = SharedAddresses.query.filter_by(user=current_user.id, device_name=device_name).first()
 
         if shared_addr is None:
             # create new device
-            shared_addr = SharedAddresses(user=current_user.id, device_name="", address=ip_addr, last_updated=func.now())
+            shared_addr = SharedAddresses(user=current_user.id, device_name=device_name, address=ip_addr, last_updated=func.now())
             db.session.add(shared_addr)
             db.session.commit()
         else:

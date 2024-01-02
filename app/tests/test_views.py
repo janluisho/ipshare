@@ -3,7 +3,7 @@ from datetime import datetime, timedelta
 from unittest import TestCase
 from flask_login import FlaskLoginClient
 from app import app, db
-from app.views import format_last_updated
+from app.views import format_last_updated, split_user_agent
 from db import User, SharedAddresses
 
 app.test_client_class = FlaskLoginClient
@@ -37,6 +37,25 @@ class TestViews(TestCase):
 
         self.assertEqual("2 seconds ago", format(timedelta(seconds=2)))
         self.assertEqual("2 seconds ago", format(timedelta(seconds=2, milliseconds=14)))
+
+    def test_split_user_agent(self):
+        tests = [
+            "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:121.0) Gecko/20100101 Firefox/121.0",
+            "Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:47.0) Gecko/20100101 Firefox/47.0",
+            "Mozilla/5.0 (Macintosh; Intel Mac OS X x.y; rv:42.0) Gecko/20100101 Firefox/42.0",
+            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+            "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.103 Safari/537.36",
+            "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.106 Safari/537.36 OPR/38.0.2220.41",
+            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36 Edg/91.0.864.59"
+        ]
+
+        self.assertEqual("Firefox Windows", split_user_agent(tests[0]))
+        self.assertEqual("Firefox Windows", split_user_agent(tests[1]))
+        self.assertEqual("Firefox Macintosh", split_user_agent(tests[2]))
+        self.assertEqual("Chrome Windows", split_user_agent(tests[3]))
+        self.assertEqual("Chrome Linux", split_user_agent(tests[4]))
+        self.assertEqual("Opera Linux", split_user_agent(tests[5]))
+        self.assertEqual("Edge Windows", split_user_agent(tests[6]))
 
     def test_root(self):
         with app.app_context():
