@@ -47,11 +47,11 @@
     text-align: left;
 }
 
-#visitor_addrs {
+#public_addrs {
     order: 3;
 }
 
-.visitor_tr {
+.public_tr {
     width: 100%;
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -59,11 +59,11 @@
     gap: 3rem;
 }
 
-.visitor_tr > th:first-child {
+.public_tr > th:first-child {
     text-align: right;
 }
 
-.visitor_tr > th:last-child {
+.public_tr > th:last-child {
     text-align: left;
 }
 

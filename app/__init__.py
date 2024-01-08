@@ -40,6 +40,7 @@ app.session_interface = CustomSessionInterface()
 
 
 # -----  -----  ----- Includes -----  -----  -----
+from app import Socket
 from app.APScheduler import scheduler
 from app import views
 from app import login_views
