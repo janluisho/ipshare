@@ -3,7 +3,7 @@ from flask_login import current_user
 from flask_sqlalchemy import SQLAlchemy
 from flask_limiter import Limiter, RequestLimit
 from flask_limiter.util import get_remote_address
-from flask.sessions import SecureCookieSessionInterface
+from flask.sessions import SecureCookieSessionInterface, SessionMixin
 
 # -----  -----  ----- App -----  -----  -----
 app = Flask(__name__)
@@ -30,10 +30,11 @@ limiter = Limiter(
 
 # -----  -----  ----- Custom Session Interface -----  -----  -----
 class CustomSessionInterface(SecureCookieSessionInterface):
-    def save_session(self, *args, **kwargs):
+    """https://pydocbrowser.github.io/flask/latest/flask.sessions.SessionInterface.html"""
+    def should_set_cookie(self, app: "Flask", session: SessionMixin) -> bool:
         if not current_user.is_authenticated:
-            return
-        return super(CustomSessionInterface, self).save_session(*args, **kwargs)
+            return False  # don't send a cookie if the user is not authenticated
+        return super().should_set_cookie(app, session)
 
 
 app.session_interface = CustomSessionInterface()
