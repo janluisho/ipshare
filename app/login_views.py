@@ -1,5 +1,5 @@
 from uuid import UUID, uuid4
-from flask import redirect, url_for, flash, render_template, request, g
+from flask import redirect, url_for, flash, render_template, request
 from flask_login import login_user, login_required, fresh_login_required, logout_user
 from flask_bcrypt import Bcrypt
 from flask_login import LoginManager, current_user
