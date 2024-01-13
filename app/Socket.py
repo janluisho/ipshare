@@ -4,6 +4,7 @@ from app import app
 from flask_socketio import SocketIO, emit, join_room
 
 from app.utils import get_addresses, user_address_info, public_address_info
+from app.views import share_ip_now
 
 socketio = SocketIO(app, manage_session=False)  # ReadOnlySession
 
@@ -17,10 +18,6 @@ def test_connect(_):
     emit("public table", get_addresses(0, public_address_info))
 
 
-# @socketio.on("refresh")
-# def handle_refresh():
-#     public_addrs = db.session.execute(
-#         db.select(SharedAddresses).filter_by(user=0).order_by(SharedAddresses.last_updated.desc()).limit(42)
-#     ).scalars()
-#     print("refresh", public_addrs)
-#     # emit("refresh")
+@socketio.on("now")
+def now():
+    share_ip_now()

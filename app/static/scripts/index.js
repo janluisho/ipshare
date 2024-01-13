@@ -30,3 +30,8 @@ socket.on('public table', function (data) {
     const user_table = document.querySelector("#public_addrs > table");
     fill_addr_table(user_table, "public_tr", JSON.parse(data));
 });
+
+const addr_button = document.querySelector("#ip-addr > a");
+addr_button.onclick = function () {
+    socket.emit('now');
+}
