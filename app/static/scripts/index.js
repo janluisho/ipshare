@@ -75,15 +75,21 @@ const fill_addr_table = (table, tr_cls, data) => {
         if ("device_name" in addr_info) {
             const cell = document.createElement("th");
             cell.textContent = addr_info["device_name"];
+            cell.classList.add("device_name")
             row.appendChild(cell);
-            // todo: navigator.clipboard.writeText(copyText.value);
+            cell.onclick = () => {
+                navigator.clipboard.writeText(addr_info["device_name"]);
+            }
         }
 
         if ("address" in addr_info) {
             const cell = document.createElement("th");
+            cell.classList.add("address")
             cell.textContent = addr_info["address"];
             row.appendChild(cell);
-            // todo: navigator.clipboard.writeText(copyText.value);
+            cell.onclick = () => {
+                navigator.clipboard.writeText(addr_info["address"]);
+            }
         }
 
         if ("last_updated" in addr_info) {

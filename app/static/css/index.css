@@ -93,3 +93,7 @@ input:focus {
     background: var(--background-highlight-color);
     outline: 2px solid white; /*todo red or green depending on min and max len*/
 }
+
+.device_name:hover, .address:hover {
+    text-decoration: var(--background-highlight-color) underline;
+}
