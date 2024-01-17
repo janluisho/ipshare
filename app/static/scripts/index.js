@@ -126,5 +126,9 @@ socket.on('public table', function (data) {
 
 const addr_button = document.querySelector("#ip-addr > a");
 addr_button.onclick = function () {
-    socket.emit('now');
+    if (user_authenticated) {
+        socket.emit('now');
+    } else if (confirm("Publicly Share IP-Address?")) {
+        socket.emit('now');
+    }
 }
