@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% block title %}now{% endblock %}
+{% block style %}
+    <link rel="stylesheet" href="{{ url_for('static', filename="css/now.css") }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename="css/checkbox.css") }}">
+{% endblock %}
+{% block js %}<script src="{{ url_for('static', filename="scripts/now.js") }}"></script>{% endblock %}
+
+{% block main %}
+    <div id="now-container">
+        <form id="now-form" method="POST" action="">
+            {{ form.hidden_tag() }}
+            <div class="checkbox-container" style="--chars: 16ch;" data-desc="{{ form.risks.render_kw['data-desc'] }}" data-heading="{{ form.risks.render_kw['data-heading'] }}" tabindex="{{ form.risks.render_kw['tabindex'] }}">
+                {{ form.risks }}
+                <label for="risks">RISKS UNDERSTOOD</label>
+            </div>
+            {{ form.submit_risks }}
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <h1 class="{{ category }}">{{ message }}</h1>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+        </form>
+        <div id="desc_field">
+            <h1 id="desc_heading" data-desc="">Sharing Your Address</h1>
+            <p id="desc_text" data-desc="">
+                {{ ip_addr }} will be stored on the server and publicly shared along with a timestamp.
+                If you want more privacy, consider <a href="{{ url_for("register") }}">registering</a>.
+            </p>
+        </div>
+    </div>
+{% endblock %}

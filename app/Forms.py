@@ -130,3 +130,27 @@ class SettingsForm(FlaskForm):
 class DeleteForm(FlaskForm):
     confirm_delete = BooleanField()
     submit_delete = SubmitField('DELETE', render_kw={"data-letters": "DELETE"})
+
+
+class ShareNowForm(SessionLessCSRFForm):
+    risks = BooleanField(
+        render_kw={
+            "data-desc": "Publicly sharing an IP address poses potential privacy and security risks, especially when it comes to geolocation tracking. IP addresses can be used to determine the approximate physical location of a device, making it possible for third parties to gain insights into a user's whereabouts. This information can be exploited for targeted advertising, surveillance, or even malicious activities. Therefore, individuals should exercise caution when sharing their IP addresses online to safeguard their privacy and mitigate the risk of unwanted geolocation tracking.",
+            "data-heading": "Understanding the Risks",
+            "tabindex": 1
+        }
+    )
+    # use_cooky = BooleanField(
+    #     render_kw={
+    #         "data-desc": "Use Cooky",
+    #         "data-heading": "Use Cooky",
+    #         "tabindex": 2
+    #     }
+    # )
+    submit_risks = SubmitField(
+        label='SHARE NOW',
+        render_kw={
+            "data-letters": "SHARE NOW",
+            "tabindex": 3
+        }
+    )

@@ -1,5 +1,6 @@
 from flask_socketio import emit
 
+from app.Forms import ShareNowForm
 from app.utils import format_last_updated, split_user_agent, get_addresses, user_address_info, public_address_info
 from db import SharedAddresses
 from flask import request, render_template, redirect, url_for
@@ -80,12 +81,27 @@ def root():
     )
 
 
-@app.route('/now')
+@app.route('/now', methods=['GET', 'POST'])
 @limiter.limit("10/minute", override_defaults=False)
 def now():
     """Teilt Ip sofort"""
-    share_ip_now()
-    return redirect(url_for('root'))
+    if current_user.is_authenticated:
+        share_ip_now()
+        return redirect(url_for('root'))
+    else:
+        if request.environ.get('HTTP_X_FORWARDED_FOR') is None:
+            ip_addr = request.environ['REMOTE_ADDR']
+        else:
+            ip_addr = request.environ['HTTP_X_FORWARDED_FOR']  # if behind a prox
+
+        form = ShareNowForm(meta={'csrf_context': ip_addr})
+
+        if form.validate_on_submit():
+            if form.risks.data:
+                share_ip_now()
+                return redirect(url_for('root'))
+
+        return render_template('now.html', form=form, user=current_user, ip_addr=ip_addr)
 
 
 @app.route('/impressum')
