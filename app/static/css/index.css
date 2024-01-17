@@ -1,11 +1,11 @@
 #ip-addr {
-    justify-self: stretch;
-    vertical-align: middle;
+    display: flex;
     flex-grow: 2;
+    flex-direction: column;
     order: 1;
     width: 100%;
     height: 32vh;
-    display: flex;
+    gap: 1rem;
     align-items: center;
     justify-content: center;
 }
@@ -14,7 +14,7 @@
     font-size: min(8vh, 8vw);
     text-align: center;
     padding: 1rem;
-    width: 50vw;
+    width: 25vw;
     border-radius: clamp(1rem, 2vw, 5rem);
     text-decoration: none;
 }
@@ -31,7 +31,7 @@
 .user_tr {
     width: 100%;
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr min(3vw, 2rem) min(3vw, 2rem);
     justify-items: stretch;
 }
 
@@ -54,7 +54,7 @@
 .public_tr {
     width: 100%;
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr 1fr min(3vw, 2rem);
     justify-items: stretch;
     gap: 3rem;
 }
@@ -67,6 +67,29 @@
     text-align: left;
 }
 
+img {
+    height: min(3vw, 2rem);
+    width: min(3vw, 2rem);
+    align-self: center;
+}
+
 table {
     width: 100%;
+}
+
+input {
+    text-align: center;
+    width: 25vw;
+    border: 1px solid var(--border-color);
+    border-radius: clamp(1rem, 2vw, 5rem);
+    color: var(--forground-color);
+    background: var(--background-color);
+    font-family: 'Space Mono', monospace;
+    font-size: min(3vw, 1.5rem);
+}
+
+input:focus {
+    color: var(--forground-highlight-color);
+    background: var(--background-highlight-color);
+    outline: 2px solid white; /*todo red or green depending on min and max len*/
 }

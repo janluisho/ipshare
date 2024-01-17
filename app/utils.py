@@ -55,11 +55,18 @@ def split_user_agent(user_agent):
 
 
 def public_address_info(addr):
-    return [addr.address, format_last_updated(addr.last_updated)]
+    return {
+        "address": addr.address,
+        "last_updated": format_last_updated(addr.last_updated)
+    }
 
 
 def user_address_info(addr):
-    return [addr.device_name, addr.address, format_last_updated(addr.last_updated)]
+    return {
+        "device_name": addr.device_name,
+        "address": addr.address,
+        "last_updated": format_last_updated(addr.last_updated)
+    }
 
 
 def get_addresses(user, info_func):
@@ -71,3 +78,28 @@ def get_addresses(user, info_func):
     ).scalars()
 
     return json.dumps([info_func(addr) for addr in addrs])
+
+
+def validate_device_name(device_name):
+    """
+    This could be used to validate the device name protecting from sql injections, html fun or swear words.
+    For now, I haven't found a way to get anything to break though.
+    putting </tr> or <h1> in to the name works just fine.
+    sql injections seem to be handled by the orm.
+    sharing swear words with your self is not a problem either.
+    """
+    return device_name[:420]  # cutting length to fit db
+
+    # digit = [chr(0x30 + i) for i in range(10)]
+    # small = [chr(0x60 + i) for i in range(1, 27)]
+    # large = [chr(0x40 + i) for i in range(1, 27)]
+    # allowed_letters = digit + small + large + [" "]
+    # return "".join([c for c in device_name if c in allowed_letters])
+
+
+def validate_address(address):
+    """Validate the address."""
+    # TODO Validate IPv4 IPv6 or URL
+    return address[:420]  # cutting length to fit db
+
+
