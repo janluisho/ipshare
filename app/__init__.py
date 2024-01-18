@@ -45,4 +45,5 @@ from app import Socket
 from app.APScheduler import scheduler
 from app import views
 from app import login_views
+from app import api
 
