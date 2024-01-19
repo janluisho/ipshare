@@ -6,7 +6,7 @@ from flask_login import LoginManager, current_user
 from app.Forms import RegisterForm, LoginForm, ChangePseudonymForm, ChangePasswordForm, InvalidateTokensForm, \
     SettingsForm, DeleteForm
 from app import app, db, limiter
-from db import User
+from db import User, SharedAddresses
 
 DISTINGUISH_NAME_PW_WRONG = True
 
@@ -139,8 +139,11 @@ def me():
 
     elif delete_form.validate_on_submit():
         if delete_form.confirm_delete.data:
+            # Delete Users Addresses
+            SharedAddresses.query.filter_by(user=current_user.id).delete()
+
+            # Delete User
             db.session.delete(current_user)
-            # todo delete corresponding devices ips etc.
             db.session.commit()
             logout_user()
             return redirect(url_for('root'))
