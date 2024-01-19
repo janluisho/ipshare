@@ -20,7 +20,7 @@ class Test(TestCase):
             db.session.add(user)
             db.session.commit()
 
-            self.alternative_id = user.alternative_id.hex
+            self.alternative_id = user.alternative_id.hex()
 
     def tearDown(self):
         with app.app_context():
