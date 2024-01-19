@@ -2,10 +2,11 @@ from uuid import UUID
 
 import jwt
 from flask import request
+from flask_socketio import emit
 from sqlalchemy import func
 
 from app import app, limiter, db
-from app.utils import validate_address
+from app.utils import validate_address, get_addresses, user_address_info
 from db import SharedAddresses, User
 
 
@@ -77,10 +78,16 @@ def apiv1_put():
             )
             db.session.add(addr)
             db.session.commit()
+            emit("user table", get_addresses(user.id, user_address_info),
+                 broadcast=True, namespace='/', to=user.id)
+
             return "", 201
         else:
             addr.address = validate_address(request.data.decode("UTF-8"))
             db.session.commit()
+            emit("user table", get_addresses(user.id, user_address_info),
+                 broadcast=True, namespace='/', to=user.id)
+
             return "", 200
 
 
@@ -104,4 +111,8 @@ def apiv1_delete():
         else:
             db.session.delete(addr)
             db.session.commit()
+
+            emit("user table", get_addresses(user.id, user_address_info),
+                 broadcast=True, namespace='/', to=user.id)
+
             return "", 200
