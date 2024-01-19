@@ -139,8 +139,9 @@ def me():
 
     elif delete_form.validate_on_submit():
         if delete_form.confirm_delete.data:
-            # Delete Users Addresses
-            SharedAddresses.query.filter_by(user=current_user.id).delete()
+            # # Delete Users Addresses
+            # SharedAddresses.query.filter_by(user=current_user.id).delete()
+            # now performed by db automatically
 
             # Delete User
             db.session.delete(current_user)
