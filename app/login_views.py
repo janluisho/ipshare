@@ -20,7 +20,7 @@ login_manager.login_view = 'signin'
 @login_manager.user_loader
 def load_user(user_id):
     if isinstance(user_id, str):
-        user_id = UUID(user_id)
+        user_id = UUID(user_id).bytes
     return User.query.filter_by(alternative_id=user_id).first()
     # see: https://flask-login.readthedocs.io/en/latest/#alternative-tokens
     # return User.query.get(int(user_id))

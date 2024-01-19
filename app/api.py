@@ -40,7 +40,7 @@ def apiv1_get():
         return decoded_or_error  # error
     else:
         decoded = decoded_or_error
-        user = User.query.filter_by(alternative_id=UUID(decoded["user"])).first()
+        user = User.query.filter_by(alternative_id=UUID(hex=decoded["user"]).bytes).first()
 
         if user is None:
             return "Authorization failed Invalid Token", 401
@@ -61,7 +61,7 @@ def apiv1_put():
         return decoded_or_error  # error
     else:
         decoded = decoded_or_error
-        user = User.query.filter_by(alternative_id=UUID(decoded["user"])).first()
+        user = User.query.filter_by(alternative_id=UUID(hex=decoded["user"]).bytes).first()
 
         if user is None:
             return "Authorization failed Invalid Token", 401
@@ -72,14 +72,14 @@ def apiv1_put():
             addr = SharedAddresses(
                 user=user.id,
                 device_name=decoded["device_name"],
-                address=validate_address(request.data),
+                address=validate_address(request.data.decode("UTF-8")),
                 last_updated=func.now()
             )
             db.session.add(addr)
             db.session.commit()
             return "", 201
         else:
-            addr.address = validate_address(request.data)
+            addr.address = validate_address(request.data.decode("UTF-8"))
             db.session.commit()
             return "", 200
 
@@ -92,7 +92,7 @@ def apiv1_delete():
         return decoded_or_error  # error
     else:
         decoded = decoded_or_error
-        user = User.query.filter_by(alternative_id=UUID(decoded["user"])).first()
+        user = User.query.filter_by(alternative_id=UUID(hex=decoded["user"]).bytes).first()
 
         if user is None:
             return "Authorization failed Invalid Token", 401
