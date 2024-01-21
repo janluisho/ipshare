@@ -137,23 +137,25 @@ def me():
         logout_user()
         return redirect(url_for('signin'))
 
-    elif delete_form.validate_on_submit():
-        if delete_form.confirm_delete.data:
-            # # Delete Users Addresses
-            # SharedAddresses.query.filter_by(user=current_user.id).delete()
-            # now performed by db automatically
+    elif "submit_delete" in request.form:
+        if delete_form.validate_on_submit():
+            if delete_form.confirm_delete.data:
+                # # Delete Users Addresses
+                # SharedAddresses.query.filter_by(user=current_user.id).delete()
+                # now performed by db automatically
 
-            # Delete User
-            db.session.delete(current_user)
+                # Delete User
+                db.session.delete(current_user)
+                db.session.commit()
+                logout_user()
+                return redirect(url_for('root'))
+
+    elif "submit_invalidate" in request.form:
+        if invalidate_form.validate_on_submit():
+            current_user.alternative_id = uuid4().bytes  # invalidate tokens see: https://flask-login.readthedocs.io/en/latest/#alternative-tokens
             db.session.commit()
             logout_user()
-            return redirect(url_for('root'))
-
-    elif invalidate_form.validate_on_submit():
-        current_user.alternative_id = uuid4()  # invalidate tokens see: https://flask-login.readthedocs.io/en/latest/#alternative-tokens
-        db.session.commit()
-        logout_user()
-        return redirect(url_for('signin'))
+            return redirect(url_for('signin'))
 
     return render_template(
         'me.html',
