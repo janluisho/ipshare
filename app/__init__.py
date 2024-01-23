@@ -43,7 +43,10 @@ app.session_interface = CustomSessionInterface()
 # -----  -----  ----- Includes -----  -----  -----
 from app import Socket
 from app.APScheduler import scheduler
-from app import views
-from app import login_views
-from app import api
+from app.views import ip_share_views
+from app.login_views import login_views
+from app.api import api_views
 
+app.register_blueprint(ip_share_views)
+app.register_blueprint(login_views)
+app.register_blueprint(api_views)

@@ -3,11 +3,11 @@
 {% block style %}<link rel="stylesheet" href="{{ url_for('static', filename="css/signin.css") }}">{% endblock %}
 
 {% block nav %}
-    <a href="{{ url_for("root") }}" data-letters="IPSHARE">IPSHARE</a>
+    <a href="{{ url_for("ip_share_views.root") }}" data-letters="IPSHARE">IPSHARE</a>
     <a href="https://github.com/janluisho/ipshare" data-letters="GITHUB">GITHUB</a>
-    <a href="{{ url_for("impressum") }}" data-letters="IMPRESSUM">IMPRESSUM</a>
+    <a href="{{ url_for("ip_share_views.impressum") }}" data-letters="IMPRESSUM">IMPRESSUM</a>
     <div id="nav-space"></div>
-    <a href="{{ url_for("register") }}" data-letters="REGISTER">REGISTER</a>
+    <a href="{{ url_for("login_views.register") }}" data-letters="REGISTER">REGISTER</a>
 {% endblock %}
 
 {% block main %}

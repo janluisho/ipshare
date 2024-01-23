@@ -1,14 +1,16 @@
 from uuid import UUID, uuid4
-from flask import redirect, url_for, flash, render_template, request
+from flask import redirect, url_for, flash, render_template, request, Blueprint
 from flask_login import login_user, login_required, fresh_login_required, logout_user
 from flask_bcrypt import Bcrypt
 from flask_login import LoginManager, current_user
 from app.Forms import RegisterForm, LoginForm, ChangePseudonymForm, ChangePasswordForm, InvalidateTokensForm, \
     SettingsForm, DeleteForm
 from app import app, db, limiter
-from db import User, SharedAddresses
+from db import User
 
 DISTINGUISH_NAME_PW_WRONG = True
+
+login_views = Blueprint('login_views', __name__, template_folder='templates')
 
 # -----  -----  ----- Login -----  -----  -----
 bcrypt = Bcrypt(app)
@@ -33,14 +35,14 @@ def redirect_next():
     try:
         dest_url = url_for(dest)
     except:
-        return redirect(url_for("root"))
+        return redirect(url_for("ip_share_views.root"))
     return redirect(dest_url)
 
 
 # -----  -----  ----- Views -----  -----  -----
 
 
-@app.route('/register', methods=['GET', 'POST'])
+@login_views.route('/register', methods=['GET', 'POST'])
 @limiter.limit("5/day", methods=['POST'])
 def register():
     """Account Erstellen"""
@@ -62,12 +64,12 @@ def register():
             db.session.add(new_user)
             db.session.commit()
             login_user(new_user, remember=form.remember.data)
-            return redirect(url_for('root'))
+            return redirect(url_for('ip_share_views.root'))
 
     return render_template('register.html', form=form)
 
 
-@app.route('/signin', methods=['GET', 'POST'])
+@login_views.route('/signin', methods=['GET', 'POST'])
 @limiter.limit("10/day;5/hour;3/minute", methods=['POST'])  # deduct_when=lambda response: response.status_code != 302)
 def signin():
     """Login"""
@@ -102,14 +104,14 @@ def signin():
     return render_template('signin.html', form=form)
 
 
-@app.route('/signout')
+@login_views.route('/signout')
 @login_required
 def signout():
     logout_user()
-    return redirect(url_for('root'))
+    return redirect(url_for('ip_share_views.root'))
 
 
-@app.route('/me', methods=['GET', 'POST'])
+@login_views.route('/me', methods=['GET', 'POST'])
 @fresh_login_required
 def me():
     pseudonym_form = ChangePseudonymForm()
@@ -135,7 +137,7 @@ def me():
         current_user.alternative_id = uuid4()  # invalidate tokens see: https://flask-login.readthedocs.io/en/latest/#alternative-tokens
         db.session.commit()
         logout_user()
-        return redirect(url_for('signin'))
+        return redirect(url_for('.signin'))
 
     elif "submit_delete" in request.form:
         if delete_form.validate_on_submit():
@@ -148,14 +150,14 @@ def me():
                 db.session.delete(current_user)
                 db.session.commit()
                 logout_user()
-                return redirect(url_for('root'))
+                return redirect(url_for('ip_share_views.root'))
 
     elif "submit_invalidate" in request.form:
         if invalidate_form.validate_on_submit():
             current_user.alternative_id = uuid4().bytes  # invalidate tokens see: https://flask-login.readthedocs.io/en/latest/#alternative-tokens
             db.session.commit()
             logout_user()
-            return redirect(url_for('signin'))
+            return redirect(url_for('.signin'))
 
     return render_template(
         'me.html',
@@ -170,9 +172,9 @@ def me():
 
 @login_manager.unauthorized_handler
 def unauthorized_handler():
-    return redirect(url_for('signin', next=request.endpoint))
+    return redirect(url_for('.signin', next=request.endpoint))
 
 
 @login_manager.needs_refresh_handler
 def refresh():
-    return redirect(url_for('signin'))
+    return redirect(url_for('.signin'))

@@ -1,13 +1,15 @@
 from uuid import UUID
 
 import jwt
-from flask import request
+from flask import request, Blueprint
 from flask_socketio import emit
 from sqlalchemy import func
 
 from app import app, limiter, db
 from app.utils import validate_address, get_addresses, user_address_info
 from db import SharedAddresses, User
+
+api_views = Blueprint('api_views', __name__, template_folder='templates')
 
 
 def authorize_and_decode():
@@ -33,7 +35,7 @@ def authorize_and_decode():
     return True, decoded
 
 
-@app.route('/v1', methods=['GET'])
+@api_views.route('/v1', methods=['GET'])
 @limiter.limit("1337 per day")
 def apiv1_get():
     success, decoded_or_error = authorize_and_decode()
@@ -54,7 +56,7 @@ def apiv1_get():
         return addr.address, 200
 
 
-@app.route('/v1', methods=['PUT'])
+@api_views.route('/v1', methods=['PUT'])
 @limiter.limit("1337 per day")
 def apiv1_put():
     success, decoded_or_error = authorize_and_decode()
@@ -91,7 +93,7 @@ def apiv1_put():
             return "", 200
 
 
-@app.route('/v1', methods=['DELETE'])
+@api_views.route('/v1', methods=['DELETE'])
 @limiter.limit("420 per day")
 def apiv1_delete():
     success, decoded_or_error = authorize_and_decode()

@@ -8,11 +8,11 @@
     <script src="{{ url_for('static', filename="scripts/register.js") }}"></script>{% endblock %}
 
 {% block nav %}
-    <a href="{{ url_for("root") }}" data-letters="IPSHARE">IPSHARE</a>
+    <a href="{{ url_for("ip_share_views.root") }}" data-letters="IPSHARE">IPSHARE</a>
     <a href="https://github.com/janluisho/ipshare" data-letters="GITHUB">GITHUB</a>
-    <a href="{{ url_for("impressum") }}" data-letters="IMPRESSUM">IMPRESSUM</a>
+    <a href="{{ url_for("ip_share_views.impressum") }}" data-letters="IMPRESSUM">IMPRESSUM</a>
     <div id="nav-space"></div>
-    <a href="{{ url_for("signin") }}" data-letters="SIGN IN">SIGN IN</a>
+    <a href="{{ url_for("login_views.signin") }}" data-letters="SIGN IN">SIGN IN</a>
 {% endblock %}
 
 {% block main %}

@@ -11,16 +11,16 @@
     <div id="outer-container">
         <nav>
         {% block nav %}
-            <a href="{{ url_for("root") }}" data-letters="IPSHARE">IPSHARE</a>
+            <a href="{{ url_for("ip_share_views.root") }}" data-letters="IPSHARE">IPSHARE</a>
             <a href="https://github.com/janluisho/ipshare" data-letters="GITHUB">GITHUB</a>
-            <a href="{{ url_for("impressum") }}" data-letters="IMPRESSUM">IMPRESSUM</a>
+            <a href="{{ url_for("ip_share_views.impressum") }}" data-letters="IMPRESSUM">IMPRESSUM</a>
             <div id="nav-space"></div>
             {% if user.is_authenticated %}
-                <a href="{{ url_for("me") }}" data-letters={{ user.name.upper() }}>{{ user.name.upper() }}</a>
-                <a href="{{ url_for("signout") }}" data-letters="SIGN OUT">SIGN OUT</a>
+                <a href="{{ url_for("login_views.me") }}" data-letters={{ user.name.upper() }}>{{ user.name.upper() }}</a>
+                <a href="{{ url_for("login_views.signout") }}" data-letters="SIGN OUT">SIGN OUT</a>
             {% else %}
-                <a href="{{ url_for("register") }}" data-letters="REGISTER">REGISTER</a>
-                <a href="{{ url_for("signin") }}" data-letters="SIGN IN">SIGN IN</a>
+                <a href="{{ url_for("login_views.register") }}" data-letters="REGISTER">REGISTER</a>
+                <a href="{{ url_for("login_views.signin") }}" data-letters="SIGN IN">SIGN IN</a>
             {% endif %}
         {% endblock %}
         </nav>

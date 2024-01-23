@@ -3,13 +3,15 @@ from flask_socketio import emit
 from app.Forms import ShareNowForm
 from app.utils import format_last_updated, split_user_agent, get_addresses, user_address_info, public_address_info
 from db import SharedAddresses
-from flask import request, render_template, redirect, url_for
+from flask import request, render_template, redirect, url_for, Blueprint
 from flask_login import current_user
 from sqlalchemy import func
 
-from app import app, db, limiter
+from app import db, limiter
 
 public_address_counter = 0
+
+ip_share_views = Blueprint('ip_share_views', __name__, template_folder='templates')
 
 
 def share_ip_now():
@@ -52,7 +54,7 @@ def share_ip_now():
         emit("public table", get_addresses(0, public_address_info), broadcast=True, namespace='/')
 
 
-@app.route('/')
+@ip_share_views.route('/')
 @limiter.limit("1337 per day")
 def root():
     if request.environ.get('HTTP_X_FORWARDED_FOR') is None:
@@ -81,13 +83,13 @@ def root():
     )
 
 
-@app.route('/now', methods=['GET', 'POST'])
+@ip_share_views.route('/now', methods=['GET', 'POST'])
 @limiter.limit("10/minute", override_defaults=False)
 def now():
     """Teilt Ip sofort"""
     if current_user.is_authenticated:
         share_ip_now()
-        return redirect(url_for('root'))
+        return redirect(url_for('ip_share_views.root'))
     else:
         if request.environ.get('HTTP_X_FORWARDED_FOR') is None:
             ip_addr = request.environ['REMOTE_ADDR']
@@ -99,12 +101,12 @@ def now():
         if form.validate_on_submit():
             if form.risks.data:
                 share_ip_now()
-                return redirect(url_for('root'))
+                return redirect(url_for('ip_share_views.root'))
 
         return render_template('now.html', form=form, user=current_user, ip_addr=ip_addr)
 
 
-@app.route('/impressum')
+@ip_share_views.route('/impressum')
 def impressum():
     """Impressum"""
     return render_template("impressum.html", user=current_user)
