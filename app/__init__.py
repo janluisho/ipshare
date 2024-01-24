@@ -46,7 +46,9 @@ from app.APScheduler import scheduler
 from app.views import ip_share_views
 from app.login_views import login_views
 from app.api import api_views
+from app.qr import qr_views
 
 app.register_blueprint(ip_share_views)
 app.register_blueprint(login_views)
-app.register_blueprint(api_views)
+app.register_blueprint(api_views, url_prefix="/v1")
+app.register_blueprint(qr_views, url_prefix="/qr")

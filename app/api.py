@@ -35,7 +35,7 @@ def authorize_and_decode():
     return True, decoded
 
 
-@api_views.route('/v1', methods=['GET'])
+@api_views.route('/', methods=['GET'])
 @limiter.limit("1337 per day")
 def apiv1_get():
     success, decoded_or_error = authorize_and_decode()
@@ -56,7 +56,7 @@ def apiv1_get():
         return addr.address, 200
 
 
-@api_views.route('/v1', methods=['PUT'])
+@api_views.route('/', methods=['PUT'])
 @limiter.limit("1337 per day")
 def apiv1_put():
     success, decoded_or_error = authorize_and_decode()
@@ -93,7 +93,7 @@ def apiv1_put():
             return "", 200
 
 
-@api_views.route('/v1', methods=['DELETE'])
+@api_views.route('/', methods=['DELETE'])
 @limiter.limit("420 per day")
 def apiv1_delete():
     success, decoded_or_error = authorize_and_decode()
