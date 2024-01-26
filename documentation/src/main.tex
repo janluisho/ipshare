@@ -1,0 +1,36 @@
+%! Author = Luis
+%! Date = 26.01.2024
+
+% Preamble
+\documentclass[12pt,a4paper,oneside,ngerman]{report}
+
+% Packages für Deckblatt
+\usepackage[absolute]{textpos} 	%Textboxen an absolute Position setzen
+\usepackage{setspace}			%Zeilenabstand anpassen
+\usepackage{color}				%Farbige Schrift
+\usepackage{graphicx}			%Einbinden von Grafiken
+\usepackage[numbers]{natbib}
+
+\usepackage{subfigure}
+\usepackage[ngerman]{babel}
+\usepackage[T1]{fontenc}
+\usepackage[ansinew]{inputenc}
+\usepackage{listings}
+\usepackage{amsmath}
+\usepackage{csquotes}
+
+% Document
+\begin{document}
+    \include{deckblatt}
+    \tableofcontents
+    \include{Motivation}
+    \include{PlanungEntwurf}
+    \include{Entwicklung}
+    \include{Inbetriebnahme}
+    \include{Fazit}
+    \nocite{*} % Include all References in main.bib even in not cited
+    \bibliography{main}
+    \bibliographystyle{plain}
+\end{document}
+
+

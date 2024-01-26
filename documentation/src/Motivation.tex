@@ -1,0 +1,45 @@
+%! Author = Luis
+%! Date = 26.01.2024
+
+\chapter{Motivation und Anforderungen}\label{ch:motivation-und-anforderungen}
+Musstest du schon einmal die Ip-Adresse von einem anderen Ger{"a}t per Hand abtippen?
+Wahrscheinlich nicht und wenn hat es bestimmt auch nicht weh getan.
+Aber w{"a}hre es nicht viel besser stattdessen an beiden Ger{"a}ten den Browser zu {"o}ffen und auf eine Webseite zu gehen,
+welche die Ip-Adresse von einem Ger{"a}t zum anderen {"u}bertr{"a}gt.
+``Nein, es dauert genauso lang'' h{"o}re ich dich sagen.
+Wahrscheinlich hast du recht.
+Na ja, ich habe trotzdem einige Monate an einer Webseite entwickelt, die im Prinzip das macht.
+Es handelt sich bei IpShare also um ein overengineertes Clipboard.
+
+\section{Projektidee}\label{sec:projektidee}
+Spa{\ss} beiseite, tats{"a}chlich habe ich allerdings einen Anwendungsfall, indem ich so etwas brauche.
+An unserer Hochschule bekommt man im Eduroam-WLAN eine {"o}ffentliche Ip-Adresse.
+F{"u}r Experimente ist das als Student nat{"u}rlich ein Fest.
+Jedenfalls wollte ich mich von einem Raspberry Pi aus einem 5G Netz zu meinem Laptop verbinden.
+Dabei handelt es sich nebenbei um das Maveric-Projekt.
+Das funktioniert auch da ich ja eine {"o}ffentliche Ip bekomme.
+Nur {"a}ndert sich diese Ip gelegentlich.
+Leider kann ich keine Angaben dazu machen, wann oder wie oft das Vorkommt.
+Es w{"a}re nicht schlecht, automatisiert die neue Ip herauszubekommen, da ich nur umst{"a}ndlich Zugriff auf den Raspberry Pi habe.
+W{"a}hrend ich das hier schreibe, ist das noch nicht erprobt worden, sollte aber dank Api funktionieren.
+Diese Problematik gab mir jedenfalls die Idee f{"u}r das Projekt.
+
+\section{Ziel}\label{sec:ziel}
+Ob mein Projekt gro{\ss}e Verwendung f{"u}r andere hat bleibt abzuwarten.
+Im Wesentlichen ging es darum mich mit Webentwicklung und im speziellen Flask zu besch{"a}ftigen.
+Etwas zu experimentieren und dabei zu lernen.
+Dementsprechend sind manche Designentscheidungen auch getroffen, einfach um zu experimentieren.
+Manche Dinge sind daher auch nicht ganz einheitlich implementiert.
+
+\section{bestehende L{"o}sungen}\label{sec:bestehende-losungen}
+Es gibt bereits Webseiten, welche einem die eigene {"o}ffentliche Ip Adresse verraten.
+Diese w{"a}hren z.B. whatismyipaddress.com\cite{whatismyipaddress} oder whatismyip\cite{whatismyip}.
+Sie erlauben es aber nicht, die Adresse von einem anderen Ger{"a}t zu bekommen.
+
+\section{Anforderungen}\label{sec:anforderungen}
+Auf die Details m{"o}chte ich im Kapitel zu Planung und Entwurf~\ref{ch:planung-und-entwurf} eingehen.
+Im groben sollen Ip-Adressen von einem Ger{"a}t geteilt werden k{"o}nnen um sie dann von einem andern Ger{"a}t abrufen zu k{"o}nnen.
+Als Rahmenbedingung f{"u}r das Projekt war noch gegeben das es sich um eine multiuserf{"a}hige Webanwendung mit Datenbank handeln soll.
+Die Entwicklung sollte nach einem Agilen-Vorgehensmodell erfolgen.
+
+
