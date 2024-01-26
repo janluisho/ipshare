@@ -62,23 +62,10 @@ def root():
     else:
         ip_addr = request.environ['HTTP_X_FORWARDED_FOR']  # if behind a prox
 
-    if current_user.is_authenticated:
-        user_addrs = db.session.execute(
-            db.select(SharedAddresses).filter_by(user=current_user.id).order_by(SharedAddresses.last_updated.desc())
-        ).scalars()
-    else:
-        user_addrs = []
-
-    public_addrs = db.session.execute(
-        db.select(SharedAddresses).filter_by(user=0).order_by(SharedAddresses.last_updated.desc()).limit(42)
-    ).scalars()
-
     return render_template(
         "index.html",
         ip_addr=ip_addr,
         user=current_user,
-        user_addrs=user_addrs,
-        public_addrs=public_addrs,
         format_last_updated=format_last_updated
     )
 
