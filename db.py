@@ -1,3 +1,4 @@
+import config
 from typing import List
 from uuid import UUID, uuid4
 from app import app, db
@@ -30,5 +31,5 @@ if __name__ == "__main__":
         db.create_all()
 
         # add a user for visitors
-        db.session.add(User(id=0, name="VISITORS", password="", remember=False))
+        db.session.add(User(id=0, name="VISITORS", password=config.VISITOR_PASSWORD, remember=False))
         db.session.commit()
