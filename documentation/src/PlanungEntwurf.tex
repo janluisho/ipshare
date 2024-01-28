@@ -78,33 +78,35 @@ Mein verwalte mein Python Environment und meine Pakete mit Anaconda\cite{anacond
 Die verwendete Python Version ist 3.11.5.
 Zur Versionierung verwende ich git und GitHub.
 Die verwendeten Bibliotheken und deren Versionen finden sich im environment.yml oder im requirements.txt.
-Hier eine Kure Übersicht:
+Hier eine Kure {"U}bersicht:
 
-\begin{itemize}
-    \item Flask
+\begin{samepage}
     \begin{itemize}
-        \item APScheduler
-        \item Bcrypt
-        \item Limiter
-        \item Login
-        \item SocketIO
-        \item SQLAlchemy
-        \item WTF
+        \setlength\itemsep{-0.4em}
+        \item Flask
+        \begin{itemize}
+            \setlength\itemsep{-0.4em}
+            \item APScheduler
+            \item Bcrypt
+            \item Limiter
+            \item Login
+            \item SocketIO
+            \item SQLAlchemy
+            \item WTF
+        \end{itemize}
+        \item NumPy
+        \item OpenCV
+        \item qrcode
+        \item Pillow
+        \item Requests
+        \item PyJWT
+        \item urllib3
     \end{itemize}
-    \item NumPy
-    \item OpenCV
-    \item qrcode
-    \item Pillow
-    \item Requests
-    \item PyJWT
-    \item urllib3
-\end{itemize}
-
+\end{samepage}
 
 \section{Datenbankstruktur}\label{sec:datenbankstruktur}
 Die Datenbank ist relativ simple es gibt eine User- und eine Address-Tabelle.
-%user only one to zero or more shared-addresses
-Es gelten folgende Abh{"a}ngigkeiten:
+Es gelten unter anderem folgende Abh{"a}ngigkeiten:
 
 \begin{align}
     id ~ &\dot \rightarrow ~ passwort \\
@@ -115,13 +117,70 @@ Es gelten folgende Abh{"a}ngigkeiten:
     id, device\_name ~ &\dot \rightarrow ~ last\_updated
 \end{align}
 
-
-\begin{figure}[h]
+\begin{minipage}{0.425\textwidth}
+    Abbildung~\ref{fig: db} zeigt das Entity-Relationship-Modell der Datenbank.
+    Zwischen shared\_addresses und user besteht eine nur-eins-zu-null-oder-mehr-Beziehung.
+    Der Fremdschlüssel user ist gleich der id in der user-Tabelle.
+    Der name ist unique und daher auch Schlüsselkandidat der Tabelle
+    Auch die alternative\_id ist ein eindeutiger Schlüsselkandidat.
+    Alle drei id, alternative\_id und name determinieren sich gegenseitig.
+\end{minipage}
+\hspace{0.05\textwidth}
+\begin{minipage}{0.425\textwidth}
     \centering
-    \includegraphics[width=\textwidth]{db}
-    \caption{Entity-Relationship-Modell der DB}
+    \includegraphics[width=0.6\textwidth]{db}
+    \captionof{figure}{Entity-Relationship-Modell der DB}
     \label{fig: db}
-\end{figure}
+\end{minipage}
+
+\vspace{2cm}
 
 
 
+Wie Tabelle~\ref{tab: nf-addr} und Tabelle~\ref{tab: nf-user} zeigen sind beide Relationen in 4ter Normalform.
+Eine {"u}berf{"u}hrung in die 5te Normalform ist hier nicht n{"o}tig da die Relationen keine mehrwertigen Abh{"a}ngigkeiten haben.
+Dementsprechend lassen sich durch eine Teilung auch keine neuen Informationen gewinnen.
+
+
+\begin{table}
+    \centering
+    \begin{tabular}{c|c|l}
+        \textbf{Normalform} & \textbf{ok/nok} & \textbf{Begr{"u}ndung} \\
+        \hline
+        1NF & ok & \parbox{10cm}{Alle Dom{"a}nen enthalten nur einfache atomare Werte.} \\
+        \hline
+        2NF & ok & \parbox{10cm}{address und last\_updated sind voll funktional abh{"a}ngig von (id, device\_name).} \\
+        \hline
+        3NF & ok & \parbox{10cm}{Es gibt keine transitive Abh{"a}ngigkeit.} \\
+        \hline
+        BCNF & ok & \parbox{10cm}{Die Determinante (id, device\_name) ist auch Schl{"u}sselkandidat.} \\
+        \hline
+        4NF & ok & \parbox{10cm}{Es gib keine mehrwertige Abh{"a}ngigkeit.} \\
+        \hline
+        5NF & nok & \parbox{10cm}{Eine Teilung in address(id, device\_namem, address) und updated(id, device\_namem, last\_updated) w{"a}re m{"o}glich.} \\
+    \end{tabular}
+    \caption{Normalformen shared\_addresses}
+    \label{tab: nf-addr}
+\end{table}
+
+
+\begin{table}
+    \centering
+    \begin{tabular}{c|c|l}
+        \textbf{Normalform} & \textbf{ok/nok} & \textbf{Begr{"u}ndung} \\
+        \hline
+        1NF & ok & \parbox{10cm}{Passwort k{"o}nnte vom Salt getrennt werden.} \\
+        \hline
+        2NF & ok & \parbox{10cm}{password und remember sind voll funktional abh{"a}ngig von z.B. id.} \\
+        \hline
+        3NF & ok & \parbox{10cm}{Es gibt transitive Abh{"a}ngigkeiten nur {"u}ber die Schl{"u}sselkandidaten.} \\
+        \hline
+        BCNF & ok & \parbox{10cm}{Jede der drei Determinanten ist auch Schl{"u}sselkandidat.} \\
+        \hline
+        4NF & ok & \parbox{10cm}{Es gib keine mehrwertige Abh{"a}ngigkeit.} \\
+        \hline
+        5NF & nok & \parbox{10cm}{Teilung in Alternative(id, alternative\_id), Name(id, name), Password(id, password) und Remember(id, remember) m{"o}glich.} \\
+    \end{tabular}
+    \caption{Normalformen user}
+    \label{tab: nf-user}
+\end{table}
