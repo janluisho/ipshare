@@ -24,15 +24,14 @@
     </div>
 
     <div id="addrs">
-        <div>
-            <h1>USER</h1>
-
-            {% if user.is_authenticated %}
+        {% if user.is_authenticated %}
+            <div>
+                <h1>USER</h1>
                 <div id="user_addrs">
                     <table></table>
                 </div>
-            {% endif %}
-        </div>
+            </div>
+        {% endif %}
 
         <div>
             <h1>PUBLIC</h1>

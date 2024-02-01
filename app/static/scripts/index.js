@@ -1,6 +1,7 @@
 var socket = io();
 var user_authenticated = false;
 
+// -----  -----  ----- EDITING  -----  -----  -----
 const ip_addr_div = document.getElementById("ip-addr");
 const edit_qr_div = document.getElementById("edit-qr");
 const main = document.querySelector("main");
@@ -50,12 +51,12 @@ const edit_address = (edit, addr_info) => {
         edit_addr.value = addr_info["address"];
         update_token_and_qr(edit_addr.value);
 
-        document.documentElement.style.setProperty("--addr-width", "60rem");  // Uebereinander
+        document.documentElement.style.setProperty("--addr-width", "60rem");  // Address Tables on top of each other
         main.removeChild(ip_addr_div);
         main.appendChild(edit_qr_div);
 
         edit.onclick = function () {
-            document.documentElement.style.setProperty("--addr-width", "130rem");  // Nebeneinander
+            document.documentElement.style.setProperty("--addr-width", "130rem");  // Address Tables side by side
             main.removeChild(edit_qr_div);
             main.appendChild(ip_addr_div);
             edit.onclick = edit_address(edit, addr_info);
@@ -97,6 +98,8 @@ const delete_button = (addr_info) => {
     return del
 }
 
+
+// -----  -----  ----- FILLING TABLES VIA SOCKET  -----  -----  -----
 
 // fill the given address table with the given address data.
 const fill_addr_table = (table, tr_cls, data) => {
@@ -152,7 +155,6 @@ socket.on('user authenticated', function () {
     user_authenticated = true;
 });
 
-
 socket.on('user table', function (data) {
     const user_table = document.querySelector("#user_addrs > table");
     fill_addr_table(user_table, "user_tr", JSON.parse(data));
@@ -163,6 +165,7 @@ socket.on('public table', function (data) {
     fill_addr_table(user_table, "public_tr", JSON.parse(data));
 });
 
+// -----  -----  ----- IP BUTTON  -----  -----  -----
 const addr_button = document.querySelector("#ip-addr > a");
 addr_button.onclick = function () {
     if (user_authenticated) {
@@ -172,5 +175,6 @@ addr_button.onclick = function () {
     }
 }
 
-document.documentElement.style.setProperty("--addr-width", "130rem");  // Nebeneinander
+//  -----  -----  ----- Hide edit stuff at start  -----  -----  -----
+document.documentElement.style.setProperty("--addr-width", "130rem");  // Address Tables Side by side
 main.removeChild(edit_qr_div)

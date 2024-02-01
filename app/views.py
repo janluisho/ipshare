@@ -65,8 +65,7 @@ def root():
     return render_template(
         "index.html",
         ip_addr=ip_addr,
-        user=current_user,
-        format_last_updated=format_last_updated
+        user=current_user
     )
 
 

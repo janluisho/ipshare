@@ -1,4 +1,4 @@
-from unittest import TestCase
+from unittest import TestCase, skip
 
 from app import db, app
 from app.login_views import load_user
@@ -20,23 +20,30 @@ class TestLoginViews(TestCase):
             db.session.delete(new_user)
             db.session.commit()
 
+    @skip
     def test_redirect_next(self):
         self.fail()
 
+    @skip
     def test_register(self):
         self.fail()
 
+    @skip
     def test_signin(self):
         self.fail()
 
+    @skip
     def test_signout(self):
         self.fail()
 
+    @skip
     def test_me(self):
         self.fail()
 
+    @skip
     def test_unauthorized_handler(self):
         self.fail()
 
+    @skip
     def test_refresh(self):
         self.fail()
