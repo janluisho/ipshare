@@ -1,7 +1,9 @@
+import urllib
 from uuid import UUID
 
 import jwt
 from flask import request, Blueprint
+from flask_login import login_required, current_user
 from flask_socketio import emit
 from sqlalchemy import func
 
@@ -118,3 +120,18 @@ def apiv1_delete():
                  broadcast=True, namespace='/', to=user.id)
 
             return "", 200
+
+
+@api_views.route('/token/<path:device_name>', methods=['GET'])
+@login_required
+@limiter.limit("1337 per day")
+def get_token(device_name):
+    if current_user.is_authenticated:
+        return jwt.encode({
+                "user": current_user.alternative_id.hex(),
+                "device_name": urllib.parse.unquote_plus(device_name)
+            },
+            app.config['JWT_SECRET_KEY'],
+            algorithm="HS256"
+            ), 200
+    return "", 401

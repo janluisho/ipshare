@@ -6,6 +6,7 @@ from sqlalchemy import func
 from app import app, db
 from db import SharedAddresses, User
 
+
 class Test(TestCase):
     def setUp(self):
         self.user_id = -1
@@ -33,17 +34,17 @@ class Test(TestCase):
             with app.test_client() as client:
                 # No Authorization at all
                 self.assertEqual(401, client.get("/v1").status_code)
-        
+
                 # Bearer missing
                 encoded = jwt.encode({"some": "payload"}, "asdf", algorithm="HS256")
                 headers = {"Authorization": f"{encoded}"}
                 self.assertEqual(401, client.get("/v1", headers=headers).status_code)
-        
+
                 # Invalid Signature
                 encoded = jwt.encode({"some": "payload"}, "asdf", algorithm="HS256")
                 headers = {"Authorization": f"Bearer {encoded}"}
                 self.assertEqual(401, client.get("/v1", headers=headers).status_code)
-        
+
                 # Incomplete Signature
                 encoded = jwt.encode({"some": "payload"}, "asdf", algorithm="HS256")
                 headers = {"Authorization": f"Bearer {encoded[1:]}"}

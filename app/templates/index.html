@@ -13,13 +13,33 @@
         <a data-numbers="{{ ip_addr }}">{{ ip_addr }}</a>
     </div>
 
-    <div id="public_addrs">
-        <table></table>
+    <div id="edit-qr">
+        <img src="/qr/ipshare.de" alt="qrcode" id="qr">
+        <div id="edit">
+            <input id="edit-addr" maxlength="48" placeholder="ADDRESS"> {# maxlength could be up to 420 for data base but the qr might need adjustment. #}
+            <input id="edit-name" maxlength="48" placeholder="DEVICE NAME">
+            <img id="edit-save" src="/static/share.svg" alt="save">
+            <a id="token">API TOKEN: </a>
+        </div>
     </div>
 
-    {% if user.is_authenticated %}
-        <div id="user_addrs">
-            <table></table>
+    <div id="addrs">
+        <div>
+            <h1>USER</h1>
+
+            {% if user.is_authenticated %}
+                <div id="user_addrs">
+                    <table></table>
+                </div>
+            {% endif %}
         </div>
-    {% endif %}
+
+        <div>
+            <h1>PUBLIC</h1>
+
+            <div id="public_addrs">
+                <table></table>
+            </div>
+        </div>
+    </div>
 {% endblock %}

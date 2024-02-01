@@ -1,33 +1,65 @@
-const ip_addr_div = document.getElementById("ip-addr");
 var socket = io();
 var user_authenticated = false;
 
-const edit_addr = (addr_info) => {
+const ip_addr_div = document.getElementById("ip-addr");
+const edit_qr_div = document.getElementById("edit-qr");
+const main = document.querySelector("main");
+
+const edit_name = document.getElementById("edit-name");
+const edit_addr = document.getElementById("edit-addr");
+const token_field = document.getElementById("token");
+const qr_code = document.getElementById("qr");
+
+const edit_save = document.getElementById("edit-save");
+edit_save.onmouseover = function () {
+    edit_save.src = "/static/share_hovered.svg";
+}
+edit_save.onmouseleave = function () {
+    edit_save.src = "/static/share.svg";
+}
+edit_save.onclick = function () {
+    socket.emit("save", {name: edit_name.value, addr: edit_addr.value})
+    update_token_and_qr(edit_addr.value)
+}
+
+const update_token_and_qr = (addr) => {
+    const token_url = `/v1/token/` + encodeURI(addr);
+    fetch(token_url)
+        .then(result => {
+            if (!result.ok) {
+                throw new Error("Couldn't get token.")
+            }
+            return result.text()
+        })
+        .then(text => {
+            token_field.textContent = "API TOKEN: " + text.slice(0, 8) + "..." + text.slice(-9, -1);
+            token_field.onclick = function () {
+                navigator.clipboard.writeText(text);
+            }
+        })
+
+    qr_code.src = `/qr/` + encodeURI(addr);
+}
+
+const edit_address = (edit, addr_info) => {
     return () => {
-        const name = document.createElement("input");
-        name.placeholder = "DEVICE NAME";
         if ("device_name" in addr_info) {
-            name.value = addr_info["device_name"]; // user's table so there is a name
+            edit_name.value = addr_info["device_name"]; // user's table so there is a name
         }
 
-        const addr = document.createElement("input");
-        addr.placeholder = "ADDRESS";
-        addr.value = addr_info["address"];
+        edit_addr.value = addr_info["address"];
+        update_token_and_qr(edit_addr.value);
 
-        const save = document.createElement("img");
-        save.src = "/static/share.svg";
-        save.alt = "save";
-        save.onclick = function () {
-            socket.emit("save", {name: name.value, addr: addr.value})
-        }
-        save.onmouseover = function () {
-            save.src = "/static/share_hovered.svg";
-        }
-        save.onmouseleave = function () {
-            save.src = "/static/share.svg";
-        }
+        document.documentElement.style.setProperty("--addr-width", "60rem");  // Uebereinander
+        main.removeChild(ip_addr_div);
+        main.appendChild(edit_qr_div);
 
-        ip_addr_div.replaceChildren(name, addr, save);
+        edit.onclick = function () {
+            document.documentElement.style.setProperty("--addr-width", "130rem");  // Nebeneinander
+            main.removeChild(edit_qr_div);
+            main.appendChild(ip_addr_div);
+            edit.onclick = edit_address(edit, addr_info);
+        }
     }
 }
 
@@ -42,7 +74,7 @@ const edit_button = (addr_info) => {
         edit.src = "/static/edit.svg";
     }
 
-    edit.onclick = edit_addr(addr_info);
+    edit.onclick = edit_address(edit, addr_info);
 
     return edit
 }
@@ -72,15 +104,16 @@ const fill_addr_table = (table, tr_cls, data) => {
         const row = document.createElement("tr")
         row.classList.add(tr_cls)
 
+        const name_cell = document.createElement("th");
         if ("device_name" in addr_info) {
-            const cell = document.createElement("th");
-            cell.textContent = addr_info["device_name"];
-            cell.classList.add("device_name")
-            row.appendChild(cell);
-            cell.onclick = () => {
+            name_cell.textContent = addr_info["device_name"];
+            name_cell.onclick = () => {
                 navigator.clipboard.writeText(addr_info["device_name"]);
             }
         }
+        name_cell.classList.add("device_name")
+        row.appendChild(name_cell);
+
 
         if ("address" in addr_info) {
             const cell = document.createElement("th");
@@ -100,15 +133,15 @@ const fill_addr_table = (table, tr_cls, data) => {
         }
 
         if (user_authenticated) {
-            const cell = document.createElement("th");
-            cell.appendChild(edit_button(addr_info));
-            row.appendChild(cell);
-        }
+            const edit_cell = document.createElement("th");
+            edit_cell.appendChild(edit_button(addr_info));
+            row.appendChild(edit_cell);
 
-        if (tr_cls === "user_tr") {  // delete button only for deletable
-            const cell = document.createElement("th");
-            cell.appendChild(delete_button(addr_info));
-            row.appendChild(cell);
+            const delete_cell = document.createElement("th");
+            if (tr_cls === "user_tr") {  // delete button only for deletable
+                delete_cell.appendChild(delete_button(addr_info));
+            }
+            row.appendChild(delete_cell);
         }
 
         return row
@@ -138,3 +171,6 @@ addr_button.onclick = function () {
         socket.emit('now');
     }
 }
+
+document.documentElement.style.setProperty("--addr-width", "130rem");  // Nebeneinander
+main.removeChild(edit_qr_div)
