@@ -53,7 +53,7 @@ def apiv1_get():
         addr = SharedAddresses.query.filter_by(user=user.id, device_name=decoded["device_name"]).first()
 
         if addr is None:
-            return "", 404
+            return f"{decoded['device_name']} Not Found", 404
 
         return addr.address, 200
 

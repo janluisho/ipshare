@@ -19,12 +19,12 @@ edit_save.onmouseleave = function () {
     edit_save.src = "/static/share.svg";
 }
 edit_save.onclick = function () {
-    socket.emit("save", {name: edit_name.value, addr: edit_addr.value})
-    update_token_and_qr(edit_addr.value)
+    socket.emit("save", {name: edit_name.value, addr: edit_addr.value});
+    update_token_and_qr(edit_addr.value, edit_name.value);
 }
 
-const update_token_and_qr = (addr) => {
-    const token_url = `/v1/token/` + encodeURI(addr);
+const update_token_and_qr = (addr, name) => {
+    const token_url = `/v1/token/` + encodeURI(name);
     fetch(token_url)
         .then(result => {
             if (!result.ok) {
@@ -49,7 +49,7 @@ const edit_address = (edit, addr_info) => {
         }
 
         edit_addr.value = addr_info["address"];
-        update_token_and_qr(edit_addr.value);
+        update_token_and_qr(edit_addr.value, edit_name.value);
 
         document.documentElement.style.setProperty("--addr-width", "60rem");  // Address Tables on top of each other
         main.removeChild(ip_addr_div);
