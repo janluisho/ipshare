@@ -23,8 +23,8 @@ class RegisterForm(SessionLessCSRFForm):
         render_kw={
             "placeholder": "PSEUDONYM",
             "autocomplete": "off",
-            "data-desc": "PSEUDONYM",
-            "data-heading": "PASSWORD",
+            "data-desc": "Choose a PSEUDONYM to be remembered by. It is recommend not using your real name.",
+            "data-heading": "PSEUDONYM",
             "tabindex": 1
         }
     )
@@ -35,14 +35,14 @@ class RegisterForm(SessionLessCSRFForm):
         render_kw={
             "placeholder": "PASSWORD",
             "autocomplete": "new-password",
-            "data-desc": "PASSWORD",
+            "data-desc": "Choose a PASSWORD to login with. It is strongly recommended not to reuse an existing password.",
             "data-heading": "PASSWORD",
             "tabindex": 2
         }
     )
     remember = BooleanField(
         render_kw={
-            "data-desc": "REMEMBER ME",
+            "data-desc": "If you want to be remembered by the website. This will use a remember-me-Cookie.",
             "data-heading": "REMEMBER ME",
             "tabindex": 3
         }
