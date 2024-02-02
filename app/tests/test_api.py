@@ -127,7 +127,7 @@ class Test(TestCase):
                 # Delete
                 self.assertEqual(200, client.delete("/v1/", headers=headers).status_code)
 
-                # heck if it is deleted
+                # check if it is deleted
                 self.assertEqual(404, client.get("/v1/", headers=headers).status_code)
 
                 # deleting again should not be possible

@@ -23,6 +23,11 @@
 \usepackage{hyperref}
 \usepackage{typed-checklist}
 \usepackage{subcaption}
+\usepackage{rotating}
+\include{ListingsPython}
+\lstset{style=pythonstyle}
+
+\setcounter{tocdepth}{1}
 
 % Document
 \begin{document}
@@ -35,7 +40,7 @@
     \include{Fazit}
     \nocite{*} % Include all References in main.bib even in not cited
     \bibliography{main}
-    \bibliographystyle{plain}
+    \bibliographystyle{plainnat}
 \end{document}
 
 

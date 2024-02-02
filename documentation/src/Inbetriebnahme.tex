@@ -1,5 +1,44 @@
 %! Author = Luis
 %! Date = 26.01.2024
 
-\chapter{Inbetriebnahme}
-Schritte zur Inbetriebnahme (auf einem lokalen Rechner)
+\chapter{Inbetriebnahme}\label{ch:inbetriebnahme}
+Zur Inbetriebnahme auf einem lokalen Rechner sind die nachfolgenden Schritte notwendig.
+
+\section{Dateien Herunterladen}\label{sec:dateien-herunterladen}
+Die Dateien {"u}ber~\url{https://github.com/janluisho/ipshare} als ZIP herunterladen oder clonen.
+Und in das Verzeichnis navigieren.
+
+\section{Pakete Installieren}\label{sec:parkete-installieren}
+Ich benutze Anaconda und w{"u}rde daher ein neues Environment anlegen.
+
+\lstset{basicstyle=\fontsize{7}{8}\selectfont\ttfamily}
+\vspace{3mm}
+\begin{lstlisting}
+    conda create --name myenv --file .\environment.yml
+\end{lstlisting}
+\vspace{3mm}
+
+Ist aber abh{"a}ngig vom Paketverwaltungssystem.
+Vorausgesetzt man hat Python bereits installiert k{"o}nnen die Pakete auch mit pip installiert werden.
+
+\vspace{3mm}
+\begin{lstlisting}
+    pip install -r requirements.txt
+\end{lstlisting}
+\vspace{3mm}
+
+\section{Datenbank anlegen}\label{sec:datenbank-anlegen}
+Um die Datenbank anzulegen muss die $db.py$ Datei einmal ausgef{"u}hrt werden.
+Dabei kann es zu einem $sqlalchemy.exc.InvalidRequestError$ kommen.
+Als Workaround m{"u}ssen in der $app/\_\_init\_\_.py$ die Blueprints gezeigt in Listings~\ref{lst:datenbank} tempor{"a}r auskommentiert werden.
+\lstinputlisting[firstline=44, firstnumber=44, lastline=54, caption=views.py, label={lst:datenbank}]{../../app/__init__.py}
+
+\section{Ausf{"u}hren}\label{sec:ausfuhren}
+Ist die Datenbank angelegt kann die Datei $run.py$ ausgef{"u}hrt werden, um die Flask Anwendung zu starten.
+Als einstiegs Punkt kann auf der Webseite die Ip-Adresse mittig im Bild angeklickt werden, um die Adresse als Visitor zu teilen.
+Danach kann z.B. ein Account {"u}ber die REGISTER-Schaltfl{"a}che rechts oben angelegt werden.
+Nach dem Teilen einer Adresse als eingeloggter User lohnt sich ein Klick auf das Stiftsymbol neben der Adresse.
+Es sollte dann ein QR-Code und der API-Token angezeigt werden.
+
+% Bei neuen Bibliotheken
+% conda env export > environment.yml; conda list -e > requirements.txt

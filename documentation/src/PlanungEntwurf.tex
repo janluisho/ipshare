@@ -30,9 +30,9 @@ Ich verwende drei einfache Rollen, um Personen zu klassifizieren, die mit der An
     \Task{done}{Als Visitor m{"o}chte ich {"u}ber die Risiken des Teilens, informiert werden.}
     \Task{open}{Als Visitor m{"o}chte ich {"u}ber das Anlegen eines Users informiert werden.} %todo Texte auf Register Seite Fehlen.
     \Task{done}{Als Visitor m{"o}chte ich einen Accout Registirern, um User zu werden.}
-    \Task{started}{Als Visitor m{"o}chte ich die App ohne Cookies nutzen k{"o}nnen.}
+    \Task{done}{Als Visitor m{"o}chte ich die App ohne Cookies nutzen k{"o}nnen.}
     \Task{done}{Als Admin m{"o}chte ich eine requirements.txt.}
-    \Task{started}{Als User m{"o}chte ich eine Liste aller meiner IPs sehen und diese Sortieren k{"o}nnen.}
+    \Task{done}{Als User m{"o}chte ich eine Liste aller meiner IPs sehen.}
     \Task{done}{Als User m{"o}chte ich meine Ip Passwort gesch{"u}tzt teilen.}
     \Task{started}{Als User m{"o}chte ich sehen wann die Ip geteilt wurde.}
     \Task{open}{Als User m{"o}chte ich leicht herausbekommen wie ich die API verwenden kann. (Immer hinweise wie ich die Informationen mit der API abrufen k{"o}nnte?!)}
@@ -44,41 +44,42 @@ Ich verwende drei einfache Rollen, um Personen zu klassifizieren, die mit der An
     \Task{dropped}{Als User m{"o}chte ich meine Adressen ver{"o}ffentlichen k{"o}nnen.} % -> kein ver{"o}ffentlichen beliebiger Inhalte.
     \Task{done}{Als User m{"o}chte ich {"o}ffentliche Ips importieren/namen.}
     \Task{done}{Als User m{"o}chte ich Adressen manuell eingeben k{"o}nnen.}
-    \Task{open}{Als User Ipv4 und Ipv6 (evtl. onion-url) validierung.}
+    \Task{open}{Als User Ipv4, Ipv6 und Url validierung.}
     \Task{open}{Als User m{"o}chte ich meine Adressen in Gruppen teilen k{"o}nnen.}
-    \Task{open}{Als User m{"o}chte meine Aderssen als QR-Code angezeigt bekommen.}
+    \Task{done}{Als User m{"o}chte meine Aderssen als QR-Code angezeigt bekommen.}
     \Task{open}{Als Admin m{"o}chte ich eine Firewall.}
     \Task{open}{Als Admin m{"o}chte ich AGB und Datenschutzerkl{"a}rung haben.}
     \Task{open}{Als Admin m{"o}chte ich IPs GEO blocken bzw. differrenzeiren.}
-    \Task{done}{Als User m{"o}chte meine Aderssen in Echtzeit aktualisiert haben.}
-    \Task{started}{Als Admin m{"o}chte Rate Limits auf den Routen.}
+    \Task{done}{Als User m{"o}chte meine Aderssen automatisch aktualisiert haben.}
+    \Task{done}{Als Admin m{"o}chte Rate Limits auf den Routen.}
     \Task{dropped}{Als User m{"o}chte ich einen Cookie banner.}
-    \Task{open}{Als Visitor m{"o}chte ich keine Cookies.}
+    \Task{started}{Als Visitor m{"o}chte ich keine Cookies.}
     \Task{open}{Als User m{"o}chte ich {"u}ber E-Mail informiert werden k{"o}nnen wenn der Service nicht verf{"u}gbar ist oder sich {"a}ndert.}
     \Task{unclear}{Als User m{"o}chte ich einen Reverse VPN {"o}ffnen k{"o}nnen.}
-    \Task{open}{Als User m{"o}chte ich mein Adressen einfach mit Api abrufen k{"o}nnen.} % Tokens
+    \Task{done}{Als User m{"o}chte ich mein Adressen einfach mit Api abrufen k{"o}nnen.}
     \Task{open}{Als User und Visitor m{"o}chte ich ein {"u}bersichtliches Interface.}
     \begin{CheckList}{Task}
-        \Task{open}{Kenntlich machen von Public und Private}
+        \Task{done}{Kenntlich machen von Public und Private}
         \Task{open}{Als User und Visitor m{"o}chte ich Mehrsprachigkeint. (Englisch und Deutsch evtl. weitere)}
         \Task{done}{Als User und Visitor m{"o}chte ich durch klicken Adressen und Namen Kopieren.}
         \Task{open}{Teilen durch klicken auf IP ist unklar. -> Share Icon?!}
         \Task{open}{Als User und Visitor m{"o}chte ich Tooltips.}
     \end{CheckList}
-    \Task{open}{Als Visitor m{"o}chte ich das es Schwer oder unm{"o}glich ist einen Link zu erstellen der automatisch/unfreiwilliges meine Adresse teilt.}
+    \Task{unclear}{Als Visitor m{"o}chte ich das es Schwer oder unm{"o}glich ist einen Link zu erstellen der automatisch/unfreiwilliges meine Adresse teilt.}
     \Task{unclear}{Als Admin m{"o}chte ich Datenbank Migrationen.}
     \Task{done}{Als Admin m{"o}chte ich Blueprints.}
     \Task{open}{Als Admin m{"o}chte ich Logging, um Angirffe und Fehler zu erkennen.}
+    \Task{open}{Als User m{"o}chte ich eine Weiterleitung zur Addresse {"u}ber den Device Namen.}
 \end{CheckList}
 
 
 \section{Frameworks und Entwicklungsumgebung}\label{sec:frameworks-und-entwicklungsumgebung}
 Ich verwende Flask als Framework und programmiere in PyCharm Professional 2023.
-Mein verwalte mein Python Environment und meine Pakete mit Anaconda\cite{anaconda}.
+Ich verwalte mein Python Environment und meine Pakete mit Anaconda\cite{anaconda}.
 Die verwendete Python Version ist 3.11.5.
 Zur Versionierung verwende ich git und GitHub.
 Die verwendeten Bibliotheken und deren Versionen finden sich im environment.yml oder im requirements.txt.
-Hier eine Kure {"U}bersicht:
+Hier eine nur eine Kure {"U}bersicht:
 
 \begin{samepage}
     \begin{itemize}
@@ -101,11 +102,13 @@ Hier eine Kure {"U}bersicht:
         \item Requests
         \item PyJWT
         \item urllib3
+        \item pytest
     \end{itemize}
 \end{samepage}
 
 \section{Datenbankstruktur}\label{sec:datenbankstruktur}
-Die Datenbank ist relativ simple es gibt eine User- und eine Address-Tabelle.
+Die Datenbank ist relativ simple
+Es gibt eine User- und eine Address-Tabelle.
 Es gelten unter anderem folgende Abh{"a}ngigkeiten:
 
 \begin{align}
@@ -120,9 +123,9 @@ Es gelten unter anderem folgende Abh{"a}ngigkeiten:
 \begin{minipage}{0.425\textwidth}
     Abbildung~\ref{fig: db} zeigt das Entity-Relationship-Modell der Datenbank.
     Zwischen shared\_addresses und user besteht eine nur-eins-zu-null-oder-mehr-Beziehung.
-    Der Fremdschlüssel user ist gleich der id in der user-Tabelle.
-    Der name ist unique und daher auch Schlüsselkandidat der Tabelle
-    Auch die alternative\_id ist ein eindeutiger Schlüsselkandidat.
+    Der Fremdschl{"u}ssel user ist gleich der id in der user-Tabelle.
+    Der name ist unique und daher auch Schl{"u}sselkandidat der Tabelle
+    Auch die alternative\_id ist ein eindeutiger Schl{"u}sselkandidat.
     Alle drei id, alternative\_id und name determinieren sich gegenseitig.
 \end{minipage}
 \hspace{0.05\textwidth}
@@ -141,8 +144,7 @@ Wie Tabelle~\ref{tab: nf-addr} und Tabelle~\ref{tab: nf-user} zeigen sind beide 
 Eine {"u}berf{"u}hrung in die 5te Normalform ist hier nicht n{"o}tig da die Relationen keine mehrwertigen Abh{"a}ngigkeiten haben.
 Dementsprechend lassen sich durch eine Teilung auch keine neuen Informationen gewinnen.
 
-
-\begin{table}
+\begin{table}[h]
     \centering
     \begin{tabular}{c|c|l}
         \textbf{Normalform} & \textbf{ok/nok} & \textbf{Begr{"u}ndung} \\
@@ -164,7 +166,7 @@ Dementsprechend lassen sich durch eine Teilung auch keine neuen Informationen ge
 \end{table}
 
 
-\begin{table}
+\begin{table}[h]
     \centering
     \begin{tabular}{c|c|l}
         \textbf{Normalform} & \textbf{ok/nok} & \textbf{Begr{"u}ndung} \\
@@ -181,6 +183,6 @@ Dementsprechend lassen sich durch eine Teilung auch keine neuen Informationen ge
         \hline
         5NF & nok & \parbox{10cm}{Teilung in Alternative(id, alternative\_id), Name(id, name), Password(id, password) und Remember(id, remember) m{"o}glich.} \\
     \end{tabular}
-    \caption{Normalformen user}
+    \caption{ Normalformen user}
     \label{tab: nf-user}
 \end{table}
