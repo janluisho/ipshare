@@ -59,6 +59,7 @@ def save(data):
             )
             db.session.add(addr)
         else:
+            addr.last_updated = func.now()
             addr.address = validate_address(data["addr"])
         db.session.commit()
 
