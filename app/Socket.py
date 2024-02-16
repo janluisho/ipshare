@@ -8,6 +8,7 @@ from flask_socketio import SocketIO, emit, join_room, leave_room
 from app.utils import get_addresses, user_address_info, public_address_info, validate_device_name, validate_address
 from app.views import share_ip_now
 from db import SharedAddresses
+from ipaddress import IPv4Address, IPv6Address, AddressValueError
 
 socketio = SocketIO(app, manage_session=False)  # ReadOnlySession
 
@@ -49,7 +50,8 @@ def now():
 @socketio.on("save")
 def save(data):
     if "name" in data and "addr" in data:
-        addr = SharedAddresses.query.filter_by(user=current_user.id, device_name=validate_device_name(data["name"])).first()
+        addr = SharedAddresses.query.filter_by(user=current_user.id,
+                                               device_name=validate_device_name(data["name"])).first()
         if addr is None:
             addr = SharedAddresses(
                 user=current_user.id,
@@ -73,7 +75,8 @@ def save(data):
 def delete(data):
     if current_user.is_authenticated:
         if "name" in data and "addr" in data:
-            addr = SharedAddresses.query.filter_by(user=current_user.id, device_name=validate_device_name(data["name"])).first()
+            addr = SharedAddresses.query.filter_by(user=current_user.id,
+                                                   device_name=validate_device_name(data["name"])).first()
             if addr is not None:
                 db.session.delete(addr)
                 db.session.commit()
@@ -81,3 +84,42 @@ def delete(data):
         emit("user table", get_addresses(current_user.id, user_address_info))
 
     emit("public table", get_addresses(0, public_address_info))
+
+
+@socketio.on("validate")
+def validate(data):
+    if current_user.is_authenticated:
+        if "addr" in data:
+            try:
+                ip = IPv4Address(data["addr"])
+            except AddressValueError:
+                pass
+            else:
+                if ip.is_multicast:
+                    emit("validated", "/static/multicast.svg")
+                elif ip.is_loopback:
+                    emit("validated", "/static/v4loopback.svg")
+                elif ip.exploded == "255.255.255.255":
+                    emit("validated", "/static/broadcast.svg")
+                elif ip.is_unspecified:
+                    emit("validated", "")
+                else:
+                    emit("validated", "/static/v4.svg")
+                return
+
+            try:
+                ip = IPv6Address(data["addr"])
+            except AddressValueError:
+                pass
+            else:
+                if ip.is_multicast:
+                    emit("validated", "/static/multicast.svg")
+                elif ip.is_loopback:
+                    emit("validated", "/static/v6loopback.svg")
+                elif ip.is_unspecified:
+                    emit("validated", "")
+                else:
+                    emit("validated", "/static/v6.svg")
+                return
+
+            emit("validated", "")

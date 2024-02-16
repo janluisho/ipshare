@@ -16,9 +16,14 @@
     <div id="edit-qr">
         <img src="/qr/ipshare.de" alt="qrcode" id="qr">
         <div id="edit">
-            <input id="edit-addr" maxlength="48" placeholder="ADDRESS"> {# maxlength could be up to 420 for data base but the qr might need adjustment. #}
-            <input id="edit-name" maxlength="48" placeholder="DEVICE NAME">
-            <img id="edit-save" src="/static/share.svg" alt="save">
+            <div>
+                <input id="edit-addr" maxlength="48" placeholder="ADDRESS"> {# maxlength could be up to 420 for data base but the qr might need adjustment. #}
+                <img id="edit-valid" alt=" ">
+            </div>
+            <div>
+                <input id="edit-name" maxlength="48" placeholder="DEVICE NAME">
+                <img id="edit-save" src="/static/share.svg" alt="save">
+            </div>
             <a id="token">API TOKEN: </a>
         </div>
     </div>

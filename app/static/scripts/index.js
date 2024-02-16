@@ -6,22 +6,32 @@ const ip_addr_div = document.getElementById("ip-addr");
 const edit_qr_div = document.getElementById("edit-qr");
 const main = document.querySelector("main");
 
-const edit_name = document.getElementById("edit-name");
-const edit_addr = document.getElementById("edit-addr");
 const token_field = document.getElementById("token");
 const qr_code = document.getElementById("qr");
 
 const edit_save = document.getElementById("edit-save");
-edit_save.onmouseover = function () {
-    edit_save.src = "/static/share_hovered.svg";
-}
-edit_save.onmouseleave = function () {
-    edit_save.src = "/static/share.svg";
-}
-edit_save.onclick = function () {
+edit_save.onmouseover = () => { edit_save.src = "/static/share_hovered.svg"; }
+edit_save.onmouseleave = () => { edit_save.src = "/static/share.svg"; }
+edit_save.onclick = () => {
     socket.emit("save", {name: edit_name.value, addr: edit_addr.value});
     update_token_and_qr(edit_addr.value, edit_name.value);
 }
+
+const edit_name = document.getElementById("edit-name");
+edit_name.onblur = () => {
+    socket.emit("save", {name: edit_name.value, addr: edit_addr.value});
+    update_token_and_qr(edit_addr.value, edit_name.value);
+}
+
+const edit_addr = document.getElementById("edit-addr");
+edit_addr.oninput = () => { socket.emit("validate", {addr: edit_addr.value}); }
+edit_addr.onblur = () => {
+    socket.emit("save", {name: edit_name.value, addr: edit_addr.value});
+    update_token_and_qr(edit_addr.value, edit_name.value);
+}
+
+const edit_valid = document.getElementById("edit-valid");
+socket.on('validated', function (data) {edit_valid.src = data;});
 
 const update_token_and_qr = (addr, name) => {
     const token_url = `/v1/token/` + encodeURI(name);

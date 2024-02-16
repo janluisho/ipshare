@@ -112,6 +112,15 @@ input:focus {
     justify-content: center;
 }
 
+#edit > div {
+    display: flex;
+    flex-direction: row;
+}
+
+#edit-valid, #edit-save {
+    margin-left: -32px;
+}
+
 #addrs > div > h1 {
     text-align: center;
     border: 1px solid var(--table-header-color);

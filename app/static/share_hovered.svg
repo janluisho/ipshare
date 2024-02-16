@@ -44,14 +44,14 @@
   </defs>
   <sodipodi:namedview
      id="base"
-     pagecolor="#000000"
+     pagecolor="#373737"
      bordercolor="#666666"
      borderopacity="1.0"
      inkscape:pageopacity="1"
      inkscape:pageshadow="2"
-     inkscape:zoom="11.2"
-     inkscape:cx="29.284418"
-     inkscape:cy="44.745123"
+     inkscape:zoom="5.6"
+     inkscape:cx="-12.566182"
+     inkscape:cy="67.88222"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      inkscape:document-rotation="0"
@@ -77,15 +77,23 @@
   <g
      inkscape:groupmode="layer"
      id="layer2"
-     inkscape:label="Ebene 2" />
+     inkscape:label="Ebene 2">
+    <ellipse
+       style="fill:#000000;stroke:#000000;stroke-width:1.11411;stroke-linecap:round;stroke-linejoin:round"
+       id="path839"
+       cx="8.4666662"
+       cy="8.4666662"
+       rx="7.380444"
+       ry="7.380445" />
+  </g>
   <g
      inkscape:label="Ebene 1"
      inkscape:groupmode="layer"
      id="layer1">
     <g
        id="g854"
-       transform="translate(-0.0089583,-0.62081524)"
-       style="stroke:#ffffff;fill:#ffffff">
+       transform="matrix(0.81841427,0,0,0.81841427,0.73634423,1.0293418)"
+       style="fill:#ffffff;stroke:#ffffff">
       <circle
          style="fill:#ffffff;stroke:#ffffff;stroke-width:0.529167;stroke-miterlimit:4;stroke-dasharray:none"
          id="path837"
