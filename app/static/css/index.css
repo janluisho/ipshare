@@ -59,6 +59,11 @@ img {
     align-self: center;
 }
 
+.flag {
+    width: min(1.48*3vw, 1.48*2rem);
+    align-self: center;
+}
+
 table {
     width: 100%;
 }
@@ -80,7 +85,7 @@ input:focus {
     outline: 2px solid white; /*todo red or green depending on min and max len*/
 }
 
-.device_name:hover, .address:hover {
+.name:hover, .address:hover {
     text-decoration: var(--background-highlight-color) underline;
 }
 

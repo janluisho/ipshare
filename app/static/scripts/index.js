@@ -54,8 +54,8 @@ const update_token_and_qr = (addr, name) => {
 
 const edit_address = (edit, addr_info) => {
     return () => {
-        if ("device_name" in addr_info) {
-            edit_name.value = addr_info["device_name"]; // user's table so there is a name
+        if ("name" in addr_info) {
+            edit_name.value = addr_info["name"]; // user's table so there is a name
         }
 
         edit_addr.value = addr_info["address"];
@@ -102,7 +102,7 @@ const delete_button = (addr_info) => {
     }
 
     del.onclick = function () {
-        socket.emit("del", {name: addr_info["device_name"], addr: addr_info["address"]})
+        socket.emit("del", {name: addr_info["name"], addr: addr_info["address"]})
     }
 
     return del
@@ -118,14 +118,22 @@ const fill_addr_table = (table, tr_cls, data) => {
         row.classList.add(tr_cls)
 
         const name_cell = document.createElement("th");
-        if ("device_name" in addr_info) {
-            name_cell.textContent = addr_info["device_name"];
+        if ("name" in addr_info) {
+            if ("img" in addr_info) {
+                const img = document.createElement("img");
+                img.src = addr_info["img"];
+                img.classList.add("flag")
+                name_cell.appendChild(img);
+            } else {
+                name_cell.textContent = addr_info["name"];
+            }
             name_cell.onclick = () => {
-                navigator.clipboard.writeText(addr_info["device_name"]);
+                navigator.clipboard.writeText(addr_info["name"]);
             }
         }
-        name_cell.classList.add("device_name")
+        name_cell.classList.add("name")
         row.appendChild(name_cell);
+
 
 
         if ("address" in addr_info) {

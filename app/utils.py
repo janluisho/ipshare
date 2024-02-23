@@ -1,10 +1,11 @@
 import json
 import re
 from datetime import datetime
+from ipaddress import IPv4Address, IPv6Address, AddressValueError
 
+from IP2LOCATION.IPDB import IpSegment, City, Region, Country
 from app import db
 from db import SharedAddresses
-
 
 def format_last_updated(last_updated):
     delta = datetime.utcnow() - last_updated
@@ -54,8 +55,55 @@ def split_user_agent(user_agent):
     return f"{browser} {system}"
 
 
+def query_ip_geo(ip: int):
+    # todo: inefficient. Maybe query this when creating the address?
+    ip_segment, country, region_name, city_name = db.session.execute(
+        db.select(IpSegment, Country, Region.name, City.name)
+        .filter(IpSegment.ip_from <= ip, IpSegment.ip_to >= ip)
+        .join(City, IpSegment.city == City.id)
+        .join(Region, City.region == Region.id)
+        .join(Country, Region.country == Country.code)
+    ).first()
+    return ip_segment, country, region_name, city_name
+
+
 def public_address_info(addr):
+    name = ""
+    img = ""
+
+    try:
+        ip = IPv4Address(addr.address)
+    except AddressValueError:
+        pass
+    else:
+        if ip.is_multicast:
+            name = "multicast"
+        elif ip.is_loopback:
+            name = "loopback"
+        elif ip.exploded == "255.255.255.255":
+            name = "broadcast"
+        elif ip.is_unspecified:
+            name = "unspecified"
+        elif ip.is_link_local:
+            name = "link local"
+        elif ip.is_private:
+            name = "private"
+        else:
+            _, country, region_name, city_name = query_ip_geo(int(ip))
+            name = f"{country.code} • {region_name} • {city_name}"
+            img = country.display
+            if img != "":
+                return {
+                    "name": name,
+                    "img": img,
+                    "address": addr.address,
+                    "last_updated": format_last_updated(addr.last_updated)
+                }
+
+    # todo IPv6
+
     return {
+        "name": name,
         "address": addr.address,
         "last_updated": format_last_updated(addr.last_updated)
     }
@@ -63,18 +111,17 @@ def public_address_info(addr):
 
 def user_address_info(addr):
     return {
-        "device_name": addr.device_name,
+        "name": addr.device_name,
         "address": addr.address,
         "last_updated": format_last_updated(addr.last_updated)
     }
-
 
 def get_addresses(user, info_func):
     addrs = db.session.execute(
         db.select(SharedAddresses)
         .filter_by(user=user)
         .order_by(SharedAddresses.last_updated.desc())
-        .limit(42)
+        .limit(10 if user == 0 else 42)
     ).scalars()
 
     return json.dumps([info_func(addr) for addr in addrs])
