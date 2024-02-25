@@ -14,7 +14,8 @@
 body {
     margin: 0px;
     padding: 0 1rem;
-    background-image: radial-gradient(var(--background-color), rgb(12, 12, 12), var(--background-color));
+    /*background-image: radial-gradient(rgb(3, 3, 3), rgb(9, 9, 9), rgb(3, 3, 3));*/
+    background-color: var(--background-color);
 }
 
 #outer-container {
@@ -69,7 +70,7 @@ main {
     gap: 3rem;
     padding-left: 2rem;
     padding-right: 2rem;
-    background-size: 1rem 1rem;
-    background-image: radial-gradient(circle, rgba(0, 0, 0, 255) 1px, rgba(0, 0, 0, 0) 1px);
+    /*background-size: 1rem 1rem;*/
+    /*background-image: radial-gradient(circle, rgba(0, 0, 0, 255) 1px, rgba(0, 0, 0, 0) 1px);*/
 }
 
