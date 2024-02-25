@@ -4,7 +4,7 @@
     --forground-highlight-color: black;
     --background-highlight-color: white;
     --border-color: white;
-    --table-header-color: rgb(40, 40, 50);
+    --table-header-color: rgb(55, 55, 60);
     --nav-height: 4rem;
     --from_height: 17rem;
     --positive-color: limegreen;
@@ -12,9 +12,9 @@
 }
 
 body {
-    background-color: var(--background-color);
     margin: 0px;
     padding: 0 1rem;
+    background-image: radial-gradient(var(--background-color), rgb(12, 12, 12), var(--background-color));
 }
 
 #outer-container {
@@ -55,18 +55,6 @@ a {
     text-decoration: none;
 }
 
-/*@keyframes animate_line {*/
-/*  from {text-decoration: underline rgba(255, 255, 255, 0);}*/
-/*  to {text-decoration: underline rgba(255, 255, 255, 255);}*/
-/*}*/
-
-/*a:hover {*/
-/*    animation-name: animate_line;*/
-/*    animation-duration: 400ms;*/
-/*    animation-delay: 200ms;*/
-/*    animation-fill-mode: both;*/
-/*}*/
-
 a:hover {
     color: var(--forground-highlight-color);
     background: var(--background-highlight-color);
@@ -81,5 +69,7 @@ main {
     gap: 3rem;
     padding-left: 2rem;
     padding-right: 2rem;
+    background-size: 1rem 1rem;
+    background-image: radial-gradient(circle, rgba(0, 0, 0, 255) 1px, rgba(0, 0, 0, 0) 1px);
 }
 
