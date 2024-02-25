@@ -28,8 +28,11 @@ const ip_addr_div = document.getElementById("ip-addr");
 const edit_qr_div = document.getElementById("edit-qr");
 const main = document.querySelector("main");
 
-const token_field = document.getElementById("token");
 const qr_code = document.getElementById("qr");
+
+const token_field = document.getElementById("token");
+const token_copy = document.getElementById("copy-token");
+hover_and_hint(token_copy, "/static/copy_hovered.svg", "/static/copy.svg", "COPY TOKEN");
 
 const edit_save = document.getElementById("edit-save");
 hover_and_hint(edit_save, "/static/share_hovered.svg", "/static/share.svg", "SAVE");
@@ -66,8 +69,11 @@ const update_token_and_qr = (addr, name) => {
             return result.text()
         })
         .then(text => {
-            token_field.textContent = "API TOKEN: " + text.slice(0, 8) + "..." + text.slice(-9, -1);
+            token_field.textContent = text.split(".")[1];
             token_field.onclick = function () {
+                navigator.clipboard.writeText(text);
+            }
+            token_copy.onclick = function () {
                 navigator.clipboard.writeText(text);
             }
         })

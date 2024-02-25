@@ -122,17 +122,32 @@ input:focus {
     display: grid;
 }
 
-#edit-valid, #edit-save {
+#edit-valid, #edit-save, #copy-token {
     grid-column: 1;
     grid-row: 1;
     z-index: 1;
     justify-self: right;
 }
 
-#edit-name, #edit-addr {
+#edit-name, #edit-addr, #token {
     grid-column: 1;
     grid-row: 1;
     z-index: 1;
+}
+
+#token-container {
+    width: min(90vw, max(50vh, 12rem, 12vw));
+}
+
+#token {
+    border: 1px solid var(--border-color);
+    border-radius: clamp(1rem, 2vw, 5rem);
+    padding-left: 16px;
+    padding-right: 32px;
+    text-align: center;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
 }
 
 #addrs > div > h1 {
@@ -192,6 +207,9 @@ main {
     animation-duration: 400ms;
     animation-delay: 5ms;
     animation-fill-mode: both;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
 }
 
 @keyframes animate_hint {
@@ -200,7 +218,7 @@ main {
         color: rgba(0, 0, 0, 0);
     }
     to {
-        width: 9rem;
+        width: max(9rem, 100% - 16px);
         color: var(--forground-highlight-color);
     }
 }
