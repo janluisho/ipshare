@@ -190,16 +190,18 @@ main {
     margin: 0;
     animation-name: animate_hint;
     animation-duration: 400ms;
-    animation-delay: 20ms;
+    animation-delay: 5ms;
     animation-fill-mode: both;
 }
 
 @keyframes animate_hint {
     from {
         width: 15px;
+        color: rgba(0, 0, 0, 0);
     }
     to {
         width: 9rem;
+        color: var(--forground-highlight-color);
     }
 }
 
