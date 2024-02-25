@@ -96,15 +96,15 @@ def validate(data):
                 pass
             else:
                 if ip.is_multicast:
-                    emit("validated", "/static/multicast.svg")
+                    emit("validated", {"src": "/static/multicast.svg", "alt": "MULTICAST"})
                 elif ip.is_loopback:
-                    emit("validated", "/static/v4loopback.svg")
+                    emit("validated", {"src": "/static/v4loopback.svg", "alt": "LOOPBACK"})
                 elif ip.exploded == "255.255.255.255":
-                    emit("validated", "/static/broadcast.svg")
+                    emit("validated", {"src": "/static/broadcast.svg", "alt": "BROADCAST"})
                 elif ip.is_unspecified:
-                    emit("validated", "")
+                    emit("validated", {"src": "", "alt": "UNSPECIFIED"})
                 else:
-                    emit("validated", "/static/v4.svg")
+                    emit("validated", {"src": "/static/v4.svg", "alt": "VALID IPv4"})
                 return
 
             try:
@@ -113,13 +113,13 @@ def validate(data):
                 pass
             else:
                 if ip.is_multicast:
-                    emit("validated", "/static/multicast.svg")
+                    emit("validated", {"src": "/static/multicast.svg", "alt": "MULTICAST"})
                 elif ip.is_loopback:
-                    emit("validated", "/static/v6loopback.svg")
+                    emit("validated", {"src": "/static/v6loopback.svg", "alt": "LOOPBACK"})
                 elif ip.is_unspecified:
-                    emit("validated", "")
+                    emit("validated", {"src": "", "alt": "UNSPECIFIED"})
                 else:
-                    emit("validated", "/static/v6.svg")
+                    emit("validated", {"src": "/static/v6.svg", "alt": "VALID IPv6"})
                 return
 
-            emit("validated", "")
+            emit("validated", {"src": "", "alt": ""})

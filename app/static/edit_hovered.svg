@@ -13,7 +13,7 @@
    version="1.1"
    id="svg859"
    inkscape:version="1.0.1 (3bc2e813f5, 2020-09-07)"
-   sodipodi:docname="edit_filled.svg">
+   sodipodi:docname="edit_hovered.svg">
   <defs
      id="defs853">
     <inkscape:path-effect
@@ -47,7 +47,7 @@
   </defs>
   <sodipodi:namedview
      id="base"
-     pagecolor="#000000"
+     pagecolor="#1e1e1e"
      bordercolor="#666666"
      borderopacity="1.0"
      inkscape:pageopacity="0"
@@ -78,13 +78,26 @@
     </rdf:RDF>
   </metadata>
   <g
+     inkscape:groupmode="layer"
+     id="layer2"
+     inkscape:label="Background"
+     style="display:inline">
+    <ellipse
+       style="fill:#000000;stroke:#000000;stroke-width:1.11411;stroke-linecap:round;stroke-linejoin:round"
+       id="path839"
+       cx="8.4666662"
+       cy="8.4666662"
+       rx="7.380444"
+       ry="7.380445" />
+  </g>
+  <g
      inkscape:label="Ebene 1"
      inkscape:groupmode="layer"
      id="layer1">
     <g
        id="g840"
-       transform="translate(-0.36386963,0.87363561)"
-       style="stroke-width:0.529167;stroke-miterlimit:4;stroke-dasharray:none;stroke:#ffffff;fill:#ffffff">
+       transform="matrix(0.88320769,0,0,0.88320769,0.66746905,1.7604438)"
+       style="fill:#ffffff;stroke:#ffffff;stroke-width:0.529167;stroke-miterlimit:4;stroke-dasharray:none">
       <path
          id="rect1422"
          style="fill:#ffffff;stroke:#ffffff;stroke-width:0.529167;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none"

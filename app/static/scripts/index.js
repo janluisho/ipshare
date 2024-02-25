@@ -1,6 +1,28 @@
 var socket = io();
 var user_authenticated = false;
 
+// -----  -----  ----- HOVER AND HINT  -----  -----  -----
+const hint = document.getElementById("hint");
+hint.parentNode.removeChild(hint);
+
+function hover_and_hint (element, src_over, src_leave, hint_text) {
+    element.src = src_leave;
+    element.alt = hint_text;
+
+    element.onmouseover = () => {
+        element.src = src_over;
+        hint.textContent = hint_text;
+        hint.style.cssText = "--chars: " + hint_text.length.toString() + "rem;"
+        element.style.cssText = "--chars: " + hint_text.length.toString() + "rem; z-index: 3;"
+        element.parentNode.appendChild(hint);
+    }
+    element.onmouseleave = () => {
+        element.src = src_leave;
+        element.style.cssText = "z-index: 1;"
+        hint.parentNode.removeChild(hint);
+    }
+}
+
 // -----  -----  ----- EDITING  -----  -----  -----
 const ip_addr_div = document.getElementById("ip-addr");
 const edit_qr_div = document.getElementById("edit-qr");
@@ -10,8 +32,7 @@ const token_field = document.getElementById("token");
 const qr_code = document.getElementById("qr");
 
 const edit_save = document.getElementById("edit-save");
-edit_save.onmouseover = () => { edit_save.src = "/static/share_hovered.svg"; }
-edit_save.onmouseleave = () => { edit_save.src = "/static/share.svg"; }
+hover_and_hint(edit_save, "/static/share_hovered.svg", "/static/share.svg", "SAVE");
 edit_save.onclick = () => {
     socket.emit("save", {name: edit_name.value, addr: edit_addr.value});
     update_token_and_qr(edit_addr.value, edit_name.value);
@@ -31,7 +52,9 @@ edit_addr.onblur = () => {
 }
 
 const edit_valid = document.getElementById("edit-valid");
-socket.on('validated', function (data) {edit_valid.src = data;});
+socket.on('validated', function (data) {
+    hover_and_hint(edit_valid, data["src"], data["src"], data["alt"]);
+});
 
 const update_token_and_qr = (addr, name) => {
     const token_url = `/v1/token/` + encodeURI(name);
@@ -74,38 +97,30 @@ const edit_address = (edit, addr_info) => {
     }
 }
 
-const edit_button = (addr_info) => {
-    const edit = document.createElement("img");
-    edit.src = "/static/edit.svg";
-    edit.alt = "edit";
-    edit.onmouseover = function () {
-        edit.src = "/static/edit_hovered.svg";
-    }
-    edit.onmouseleave = function () {
-        edit.src = "/static/edit.svg";
-    }
+const pen_button = (addr_info) => {
+    const pen_button = document.createElement("img");
+    hover_and_hint(pen_button, "/static/edit_hovered.svg", "/static/edit.svg", "EDIT");
+    pen_button.onclick = edit_address(pen_button, addr_info);
 
-    edit.onclick = edit_address(edit, addr_info);
+    const container = document.createElement("div");
+    container.classList.add("img-with-hint-container")
+    container.appendChild(pen_button)
 
-    return edit
+    return container
 }
 
 const delete_button = (addr_info) => {
     const del = document.createElement("img");
-    del.src = "/static/delete.svg";
-    del.alt = "delete";
-    del.onmouseover = function () {
-        del.src = "/static/delete_hovered.svg";
-    }
-    del.onmouseleave = function () {
-        del.src = "/static/delete.svg";
-    }
-
+    hover_and_hint(del, "/static/delete_hovered.svg", "/static/delete.svg", "DELETE");
     del.onclick = function () {
         socket.emit("del", {name: addr_info["name"], addr: addr_info["address"]})
     }
 
-    return del
+    const container = document.createElement("div");
+    container.classList.add("img-with-hint-container")
+    container.appendChild(del)
+
+    return container
 }
 
 
@@ -155,7 +170,7 @@ const fill_addr_table = (table, tr_cls, data) => {
 
         if (user_authenticated) {
             const edit_cell = document.createElement("th");
-            edit_cell.appendChild(edit_button(addr_info));
+            edit_cell.appendChild(pen_button(addr_info));
             row.appendChild(edit_cell);
 
             const delete_cell = document.createElement("th");

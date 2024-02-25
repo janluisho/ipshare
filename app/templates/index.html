@@ -18,11 +18,11 @@
         <div id="edit">
             <div>
                 <input id="edit-addr" maxlength="48" placeholder="ADDRESS"> {# maxlength could be up to 420 for data base but the qr might need adjustment. #}
-                <img id="edit-valid" alt=" ">
+                <img id="edit-valid" alt=" " class="hint_with_alt">
             </div>
             <div>
                 <input id="edit-name" maxlength="48" placeholder="DEVICE NAME">
-                <img id="edit-save" src="/static/share.svg" alt="save">
+                <img id="edit-save" src="/static/share.svg" alt="SAVE" class="hint_with_alt">
             </div>
             <a id="token">API TOKEN: </a>
         </div>
@@ -46,4 +46,6 @@
             </div>
         </div>
     </div>
+
+    <h1 id="hint"></h1>
 {% endblock %}
