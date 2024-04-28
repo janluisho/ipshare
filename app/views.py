@@ -96,3 +96,8 @@ def now():
 def impressum():
     """Impressum"""
     return render_template("impressum.html", user=current_user)
+
+@ip_share_views.route('/datenschutzerklaerung')
+def datenschutzerklaerung():
+    """Datenschutzerklaerung"""
+    return render_template("datenschutzerklaerung.html", user=current_user)

@@ -5,6 +5,7 @@ SECRET_KEY = "secret_key"  # open("secret_key").readline()  # todo
 CSRF_SECRET_KEY = "csrf_secret_key"  # todo
 JWT_SECRET_KEY = "jwt_secret_key"  # todo
 VISITOR_PASSWORD = "visitor_password"  # todo
+IP2LOCATION_TOKEN = "EJhg0zZ2DxDLRhKnQqLZGVE4NnWe9OVbFeDiJi4aQgxlBvFGMLlvUINJpt8Ew5xn"
 # PERMANENT_SESSION_LIFETIME = 6000
 # REMEMBER_COOKIE_DURATION = datetime.timedelta(days=42)
 # REMEMBER_COOKIE_DOMAIN =   # todo

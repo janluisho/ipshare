@@ -1,0 +1,32 @@
+#datenschutzerklaerung-back {
+    padding: 0.1rem;
+    border-radius: clamp(0.2rem, 0.5vw, 1rem);
+    text-align: center;
+}
+
+#datenschutzerklaerung {
+    color: var(--forground-color);
+    height: max(90%, 20rem);
+    width: max(50%, 20rem);
+    padding: 2rem
+}
+
+#datenschutzerklaerung > h1 {
+    font-size: min(4vw, 2rem);
+}
+#datenschutzerklaerung > h2 {
+    font-size: min(3.5vw, 1.8rem);
+}
+#datenschutzerklaerung > h3 {
+    font-size: min(3vw, 1.6rem);
+}
+#datenschutzerklaerung > h4 {
+    font-size: min(2.5vw, 1.4rem);
+}
+
+#datenschutzerklaerung > p > a {
+    text-decoration: underline var(--forground-color);
+}
+#datenschutzerklaerung > p > a:hover {
+    text-decoration: underline var(--forground-highlight-color);
+}
