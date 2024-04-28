@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="64"
+   height="64"
+   viewBox="0 0 16.933333 16.933333"
+   version="1.1"
+   id="svg8"
+   inkscape:version="1.0.1 (3bc2e813f5, 2020-09-07)"
+   sodipodi:docname="copy.svg"
+   inkscape:export-filename="D:\Python\ipshare\app\static\favicon.png"
+   inkscape:export-xdpi="96"
+   inkscape:export-ydpi="96">
+  <defs
+     id="defs2">
+    <inkscape:path-effect
+       effect="fillet_chamfer"
+       id="path-effect856"
+       is_visible="true"
+       lpeversion="1"
+       satellites_param="F,0,0,1,0,1.0583333,0,1 @ F,0,0,1,0,1.0583333,0,1 @ F,0,0,1,0,1.0583333,0,1 @ F,0,0,1,0,1.0583333,0,1 @ F,0,0,1,0,1.0583333,0,1"
+       unit="px"
+       method="auto"
+       mode="F"
+       radius="4"
+       chamfer_steps="1"
+       flexible="false"
+       use_knot_distance="true"
+       apply_no_radius="true"
+       apply_with_radius="true"
+       only_selected="false"
+       hide_knots="false" />
+    <inkscape:path-effect
+       effect="fillet_chamfer"
+       id="path-effect852"
+       is_visible="true"
+       lpeversion="1"
+       satellites_param="F,0,0,1,0,1.0845839,0,1 @ F,0,0,1,0,1.0583333,0,1 @ F,0,0,1,0,1.0583333,0,1 @ F,0,0,1,0,1.0583333,0,1"
+       unit="px"
+       method="auto"
+       mode="F"
+       radius="4"
+       chamfer_steps="1"
+       flexible="false"
+       use_knot_distance="true"
+       apply_no_radius="true"
+       apply_with_radius="true"
+       only_selected="false"
+       hide_knots="false" />
+    <inkscape:path-effect
+       effect="bspline"
+       id="path-effect889"
+       is_visible="true"
+       lpeversion="1"
+       weight="33.333333"
+       steps="2"
+       helper_size="0"
+       apply_no_weight="true"
+       apply_with_weight="true"
+       only_selected="false" />
+    <inkscape:path-effect
+       effect="bspline"
+       id="path-effect870"
+       is_visible="true"
+       lpeversion="1"
+       weight="33.333333"
+       steps="2"
+       helper_size="0"
+       apply_no_weight="true"
+       apply_with_weight="true"
+       only_selected="false" />
+    <inkscape:path-effect
+       effect="fillet_chamfer"
+       id="path-effect833"
+       is_visible="true"
+       lpeversion="1"
+       satellites_param="F,0,0,1,0,1.0583333,0,1 @ F,0,0,1,0,1.0583333,0,1 @ F,0,0,1,0,1.0583333,0,1 @ F,0,0,1,0,1.0583333,0,1 @ F,0,0,1,0,1.0583333,0,1"
+       unit="px"
+       method="auto"
+       mode="F"
+       radius="4"
+       chamfer_steps="1"
+       flexible="false"
+       use_knot_distance="true"
+       apply_no_radius="true"
+       apply_with_radius="true"
+       only_selected="false"
+       hide_knots="false" />
+  </defs>
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#121212"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="1"
+     inkscape:pageshadow="2"
+     inkscape:zoom="15.839192"
+     inkscape:cx="40.045454"
+     inkscape:cy="39.521674"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     inkscape:document-rotation="0"
+     showgrid="false"
+     units="px"
+     inkscape:window-width="2560"
+     inkscape:window-height="1374"
+     inkscape:window-x="2552"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1" />
+  <metadata
+     id="metadata5">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:groupmode="layer"
+     id="layer2"
+     inkscape:label="Ebene 2">
+    <ellipse
+       style="fill:#000000;stroke:#000000;stroke-width:1.116;stroke-linecap:round;stroke-linejoin:round"
+       id="path835"
+       cx="8.4666662"
+       cy="8.4666681"
+       rx="7.3794999"
+       ry="7.3795018" />
+  </g>
+  <g
+     inkscape:label="Ebene 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <g
+       id="g846"
+       transform="translate(0,-0.00229235)">
+      <path
+         id="rect833"
+         style="fill:none;stroke:#ffffff;stroke-width:0.330374;stroke-miterlimit:4;stroke-dasharray:none"
+         d="m 12.72142,7.7413517 8e-6,4.9941863 a 1.0583315,1.0583315 134.99995 0 1 -1.058331,1.058333 H 4.1882655 A 1.0583333,1.0583333 45 0 1 3.1299322,12.735538 V 5.2607071 A 1.0583271,1.0583271 135.00017 0 1 4.1882655,4.20238 l 5.1623622,3.01e-5 A 2.433487,2.433487 23.504751 0 1 11.130619,4.9765477 L 11.99976,5.908887 a 2.6873727,2.6873727 68.504535 0 1 0.72166,1.8324647 z"
+         sodipodi:nodetypes="cccccc"
+         inkscape:path-effect="#path-effect833"
+         inkscape:original-d="m 12.721418,6.6830184 1.2e-5,7.1108526 H 3.1299322 V 4.2023738 l 7.2790288,4.25e-5 z" />
+      <path
+         id="path854"
+         style="fill:#000000;stroke:#ffffff;stroke-width:0.330374;stroke-miterlimit:4;stroke-dasharray:none"
+         d="m 13.803377,6.6830184 8e-6,4.9941856 a 1.0583315,1.0583315 134.99995 0 1 -1.058331,1.058333 H 5.2702221 A 1.0583333,1.0583333 45 0 1 4.2118888,11.677204 V 4.2023738 A 1.0583271,1.0583271 135.00017 0 1 5.2702221,3.1440467 l 5.1623629,3.02e-5 a 2.4334871,2.4334871 23.504751 0 1 1.779991,0.7741376 l 0.869141,0.9323392 a 2.6873726,2.6873726 68.504534 0 1 0.72166,1.8324647 z"
+         sodipodi:nodetypes="cccccc"
+         inkscape:path-effect="#path-effect856"
+         inkscape:original-d="m 13.803375,5.6246851 1.2e-5,7.1108519 H 4.2118888 V 3.1440405 l 7.2790292,4.26e-5 z" />
+    </g>
+  </g>
+</svg>
