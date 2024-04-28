@@ -23,7 +23,7 @@ class RegisterForm(SessionLessCSRFForm):
         render_kw={
             "placeholder": "PSEUDONYM",
             "autocomplete": "off",
-            "data-desc": "Choose a PSEUDONYM to be remembered by. It is recommend not using your real name.",
+            "data-desc": "Choose a PSEUDONYM to be remembered by. It is recommended NOT to use your real name.",
             "data-heading": "PSEUDONYM",
             "tabindex": 1
         }
